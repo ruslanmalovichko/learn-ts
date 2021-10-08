@@ -418,16 +418,93 @@
 //   Russian // TypeScript use as 501. 501 is after 500
 // }
 
-enum Color { // We can use different types of values
-  Red = '#c10000',
-  Blue = '#007ac1',
-  Pink = 0xc10050,
-  White = 255
-}
+// enum Color { // We can use different types of values
+//   Red = '#c10000',
+//   Blue = '#007ac1',
+//   Pink = 0xc10050,
+//   White = 255
+// }
+// 
+// let red = Color.Red
+// let pink = Color.Pink
+// console.log(red)
+// console.log(pink)
 
-let red = Color.Red
-let pink = Color.Pink
-console.log(red)
-console.log(pink)
+// let a = Color.Red
+// let b = Color.Green // error, property does not exist
 
+// let c = Color[0] // undefined, it isn't an error
+// let d = Color[6] // undefined, it isn't an error
+
+// console.log(a)
+// console.log(c)
+// console.log(d)
+
+// const enum Language { // it's better to not use const enum
+//   English,
+//   Spanish,
+//   Russian
+// }
+// 
+// let a = Language.English
+// let b = Language.Tagalog // error, property does not exist
+// let c = Language[0] // error, use string literal only
+// let d = Language[6] // error, use string literal only
+
+// const enum Flippable {
+//   Burger,
+//   Chair,
+//   Cup,
+//   Skateboard,
+//   Table
+// }
+// 
+// function flip(f: Flippable) {
+//   return 'flipped it'
+// }
+// 
+// console.log(flip(Flippable.Chair)) // Returns flipped it
+// console.log(flip(Flippable.Cup)) // Returns flipped it
+// console.log(flip(12)) // Returns flipped it
+
+// const enum Flippable {
+//   Burger = 'Burger',
+//   Chair = 'Chair',
+//   Cup = 'Cup',
+//   Skateboard = 'Skateboard',
+//   Table = 'Table'
+// }
+// 
+// function flip(f: Flippable) {
+//   return 'flipped it'
+// }
+// 
+// console.log(flip(Flippable.Chair)) // Returns flipped it
+// console.log(flip(Flippable.Cup)) // Returns flipped it
+// console.log(flip(12)) // 12 can't be assigned to Flippable
+// console.log(flip('Hat')) // 'Hat' can't be assigned to Flippable
+
+// Tasks in Part 3:
+// 1
+let a = 1042 // a: number
+let b = 'apples and oranges' // b: string
+const c = 'pineapples' // c: "pineapples"
+let d = [true, true, false] // d: boolean[]
+let e = {type: 'ficus'} // e: {type: string}
+let f = [1, false] // f: (number | boolean)[]
+const g = [3] // g: number[]
+let h = null // h: any
+
+// 2
+let i: 3 = 3
+// i = 4 // error, i can assign 3 only
+
+let j = [1, 2, 3]
+j.push(4)
+// j.push('5') // error, argument can be number only
+
+// let k: never = 4 // error, we can't assign number to never type
+
+let l: unknown = 4
+// let m = l * 2 // error, we can't multiply unknown type
 
