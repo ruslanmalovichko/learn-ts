@@ -8,9 +8,6 @@
 // let d = c.apple * 4
 // let e = 'Test' + []
 
-import {equal} from "assert"
-import {type} from "os"
-
 // 2
 // function squareOf(n: number) {
 //   return n * n;
