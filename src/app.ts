@@ -292,10 +292,10 @@
 //   let a = []
 //   a.push(1)
 //   a.push('x')
-//   return a // buildArray() is equal array a with 1 and 'x' parametrs and (string | number)[] type. You can't add boolean parametrs
+//   return a // buildArray() is equal array a with 1 and 'x' parameters and (string | number)[] type. You can't add boolean parameters
 // }
 // let myArray = buildArray()
-// myArray.push(true) // error, You can't add boolean parametrs, because we allow (string | number)[] type
+// myArray.push(true) // error, You can't add boolean parameters, because we allow (string | number)[] type
 // myArray.push('a')
 // console.log(myArray)
 
@@ -486,25 +486,300 @@
 
 // Tasks in Part 3:
 // 1
-let a = 1042 // a: number
-let b = 'apples and oranges' // b: string
-const c = 'pineapples' // c: "pineapples"
-let d = [true, true, false] // d: boolean[]
-let e = {type: 'ficus'} // e: {type: string}
-let f = [1, false] // f: (number | boolean)[]
-const g = [3] // g: number[]
-let h = null // h: any
+// let a = 1042 // a: number
+// let b = 'apples and oranges' // b: string
+// const c = 'pineapples' // c: "pineapples"
+// let d = [true, true, false] // d: boolean[]
+// let e = {type: 'ficus'} // e: {type: string}
+// let f = [1, false] // f: (number | boolean)[]
+// const g = [3] // g: number[]
+// let h = null // h: any
 
 // 2
-let i: 3 = 3
+// let i: 3 = 3
 // i = 4 // error, i can assign 3 only
 
-let j = [1, 2, 3]
-j.push(4)
+// let j = [1, 2, 3]
+// j.push(4)
 // j.push('5') // error, argument can be number only
 
 // let k: never = 4 // error, we can't assign number to never type
 
-let l: unknown = 4
+// let l: unknown = 4
 // let m = l * 2 // error, we can't multiply unknown type
+
+// Part 4 of book
+// 1
+// function add(a: number, b: number) {
+//   return a + b
+// }
+
+// function add(a: number, b: number): number { // a and b are parameters
+//   return a + b
+// }
+// 
+// function greet(name: string) {
+//   return 'hello ' + name
+// }
+// 
+// let greet2 = function(name: string) {
+//   return 'hello ' + name
+// }
+// 
+// let greet3 = (name: string) => {
+//   return 'hello ' + name
+// }
+// 
+// let greet4 = (name: string) => 'hello ' + name
+// 
+// let greet5 = new Function('name', 'return "hello " + name')
+// 
+// console.log(add(1, 2)) // 1 and 2 are arguments
+// console.log(greet('Crystal'))
+
+// add(1) // error, we need second argument
+// add(1, 'a') // error, argument a should be a number type
+
+// 2
+// function log(message: string, userId?: string) {
+//   let time = new Date().toLocaleString()
+//   console.log(time, message, userId || 'Not signed in') // Log time variable. Then log message variable. Then if userId exists - log userId, if not - log 'Not signed in' text
+// }
+// 
+// log('Page loaded')
+// log('User signed in', 'da763be')
+
+// function log(message: string, userId = 'Not signed in') {
+//   let time = new Date().toISOString()
+//   console.log(time, message, userId) // Log time variable. Then log message variable. Then log userId variable
+// }
+// 
+// log('User clicked on a button', 'da763be')
+// log('User signed out')
+
+// type Context = {
+//   appId?: string
+//   userId?: string
+// }
+// 
+// function log(message: string, context: Context = {}) {
+//   let time = new Date().toISOString()
+//   console.log(time, message, context.userId) // Log time variable. Then log message variable. Then log context.userId variable
+// }
+
+// log('User clicked on a button', {userId: 'da763be'})
+
+// 3
+// function sum(numbers: number[]): number {
+//   return numbers.reduce((total, n) => total + n, 0) // first time total = 0, n: each element of array. As a result we return sum of array elements
+// }
+// 
+// console.log(sum([1, 2, 3]))
+
+// 4
+// function sumVariadic(): number {
+//   return Array
+//     .from(arguments)
+//     .reduce((total, n) => total + n, 0)
+// }
+// 
+// console.log(sumVariadic(1, 2, 3)) // error, unsecure way, expected 0 arguments
+
+// 5
+// function sumVariadicSafe(...numbers: number[]): number { // ...numbers parameters creates an array from arguments
+//   return numbers.reduce((total, n) => total + n, 0)
+// }
+// 
+// console.log(sumVariadicSafe(1, 2, 3))
+
+// 6
+// interface Console {
+//   log(message?: any, ...optionalParams: any[]): void // ...optionalParams we can use only one and at last position
+// }
+
+// 6
+// function add(a: number, b: number): number {
+//   return a + b
+// }
+// 
+// // call function in different ways
+// add(10, 20)
+// add.apply(null, [10, 20])
+// add.call(null, 10, 20)
+// add.bind(null, 10, 20)()
+
+// 7
+// let x = {
+//   a() {
+//     return this
+//   }
+// }
+// console.log(x.a().a)
+// console.log(x.a().a.toString())
+// let a = x.a
+// a()
+// console.log(a.toString()) // currently I didn't get problems with this
+
+// 8
+// function fancyDate() {
+//   return `${this.getDate()}/${this.getMonth()}/${this.getFullYear()}` // errors, this type any
+// }
+// console.log(fancyDate.call(new Date))
+
+// fancyDate() // error, we didn't apply Date to this
+
+// function fancyDate(this: Date) {
+//   return `${this.getDate()}/${this.getMonth()}/${this.getFullYear()}`
+// }
+// console.log(fancyDate.call(new Date))
+// fancyDate() // error, we didn't apply Date to this
+
+// 9
+// function* createFibonacciGenerator() { // * is function generator
+//   let a = 0
+//   let b = 1
+//   while (true) {
+//     yield a;
+//     debugger
+//     [a, b] = [b, a + b] // a = b, after that b = a + b
+//     debugger
+//     // a = 1
+//     // b = 1
+//     //
+//     // a = 1
+//     // b = 2
+//     //
+//     // a = 2
+//     // b = 3
+//     //
+//     // a = 3
+//     // b = 5
+//     //
+//     // a = 5
+//     // b = 8
+//   }
+// }
+// 
+// let fibonacciGenerator = createFibonacciGenerator()
+// 
+// console.log(fibonacciGenerator.next())
+// console.log(fibonacciGenerator.next())
+// console.log(fibonacciGenerator.next())
+// console.log(fibonacciGenerator.next())
+// console.log(fibonacciGenerator.next())
+// console.log(fibonacciGenerator.next())
+
+// 10
+// function* createNumbers(): IterableIterator<number> {
+//   let n = 0
+//   while (1) {
+//     yield n++
+//   }
+// }
+// 
+// let numbers = createNumbers()
+// console.log(numbers.next())
+// console.log(numbers.next())
+// console.log(numbers.next())
+
+// 11
+// let numbers = {
+//   *[Symbol.iterator]() {
+//     for (let n = 1; n <= 10; n++) {
+//       // debugger
+//       yield n
+//       // debugger
+//     }
+//   }
+// }
+// let a = numbers[Symbol.iterator]();
+// console.log(a.next())
+// console.log(a.next())
+// console.log(a.next())
+
+// 12
+// type Log = (message: string, userId?: string) => void // function type, we write message and userId parametrs and what return - void, nothing
+// 
+// let log: Log = (
+//   message,
+//   userId = 'Not signed in'
+// ) => {
+//   let time =new Date().toISOString()
+//   console.log(time, message, userId)
+// }
+
+// log('Test', 'Test2')
+
+// 13
+// function times(
+//   f: (index: number) => void, // f is arrow function with n parametr
+//   n: number
+// ) {
+//   for (let i = 0; i < n; i++) {
+//     f(i) // call arrow function with i argument
+//   }
+// }
+// 
+// times(n => console.log(n), 4)
+
+// 14
+// type Log = (message: string, userId?: string) => void // function type, we write message and userId parametrs and what return - void, nothing
+// type Log = {
+//   (message: string, userId?: string): void // function type, we write message and userId parametrs and what return - void, nothing
+// }
+
+// 15
+// type Reserve = {
+//   // (from: Date, to: Date, destination: string): Reservation
+//   (from: Date, to: Date, destination: string): void
+//   // (from: Date, destination: string): Reservation
+//   (from: Date, destination: string): void
+// }
+// 
+// let reserve: Reserve = (
+//   from: Date,
+//   toOrDestination: Date | string,
+//   destination?: string
+// ) => {
+//   console.log(from)
+//   console.log(toOrDestination)
+//   console.log(destination)
+//   if (toOrDestination instanceof Date && destination !== undefined) {
+// 
+//   }
+//   else if (typeof toOrDestination === 'string') {
+// 
+//   }
+// }
+// reserve(new Date(), new Date(2022, 1, 1), 'test')
+
+// 16
+// type WarnUser = { // currntly I don't know how to use it
+//   (warning: string): void
+//   wasCalled: boolean
+// }
+
+// 17
+type Filter = {
+  // (array: number[], f: (item: number) => boolean): unknown[]
+  // (array: string[], f: (item: string) => boolean): string[]
+  (array: object[], f: (item: object) => boolean): object[]
+}
+let names = [
+  {firstName: 'beth'},
+  {firstName: 'caitlyn'},
+  {firstName: 'xin'}
+]
+let filter: Filter = (array, f) => {
+  console.log(f)
+  return array
+}
+
+let result = filter(
+  names,
+  _ => true
+  // _ => _.firstName.startsWith('b') // error, property firstName does not exist
+)
+
+// result[0].firstName // error, property firstName does not exist
 
