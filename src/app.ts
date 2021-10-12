@@ -760,26 +760,292 @@
 // }
 
 // 17
-type Filter = {
-  // (array: number[], f: (item: number) => boolean): unknown[]
-  // (array: string[], f: (item: string) => boolean): string[]
-  (array: object[], f: (item: object) => boolean): object[]
-}
-let names = [
-  {firstName: 'beth'},
-  {firstName: 'caitlyn'},
-  {firstName: 'xin'}
-]
-let filter: Filter = (array, f) => {
-  console.log(f)
-  return array
+// type Filter = {
+//   // (array: number[], f: (item: number) => boolean): unknown[]
+//   // (array: string[], f: (item: string) => boolean): string[]
+//   // (array: object[], f: (item: object) => boolean): object[]
+//   <T>(array: T[], f: (item: T) => boolean): T[]
+// }
+// 
+// let names = [
+//   {firstName: 'beth'},
+//   {firstName: 'caitlyn'},
+//   {firstName: 'xin'}
+// ]
+// let filter: Filter = (array, f) => {
+//   console.log(f.toString())
+//   return array
+// }
+// 
+// let result = filter(
+//   names,
+//   // _ => true
+//   _ => _.firstName.startsWith('b') // error, property firstName does not exist. No error if we use Generic Type
+// )
+// 
+// console.log(result[0].firstName) // error, property firstName does not exist. No error if we use Generic Type
+// 
+// console.log(filter([1, 2, 3], _ => _ > 2))
+// 
+// console.log(filter(['a', 'b'], _ => _ !== 'b'))
+
+// 18
+// type Filter<T> = {
+//   (array: T[], f: (item: T) => boolean): T[]
+// }
+
+// let filter: Filter = (array, f) => { // error, Filter requires 1 argument
+//   console.log(f.toString())
+//   return array
+// }
+// 
+// type OtherFilter = Filter // error, Filter requires 1 argument
+
+// let filter: Filter<number> = (array, f) => {
+//   console.log(f.toString())
+//   return array
+// }
+// 
+// type StringFilter = Filter<string>
+// 
+// let stringFilter: StringFilter = (array, f) => {
+//   console.log(f.toString())
+//   return array
+// }
+
+// 19
+// type Filter = {
+//   <T>(array: T[], f: (item: T) => boolean): T[]
+// }
+// 
+// let filter: Filter = (array, f) => {
+//   console.log(f.toString())
+//   return array
+// }
+
+// type Filter<T> = {
+//   (array: T[], f: (item: T) => boolean): T[]
+// }
+// 
+// let filter: Filter<number> = (array, f) => {
+//   console.log(f.toString())
+//   return array
+// }
+
+// type Filter = <T>(array: T[], f: (item: T) => boolean) => T[]
+// 
+// let filter: Filter = (array, f) => {
+//   console.log(f.toString())
+//   return array
+// }
+
+// type Filter<T> = (array: T[], f: (item: T) => boolean) => T[]
+// 
+// let filter: Filter<string> = (array, f) => {
+//   console.log(f.toString())
+//   return array
+// }
+
+// function filter<T>(array: T[], f: (item: T) => boolean): T[] {
+//   console.log(array)
+//   console.log(f)
+//   return array
+// }
+
+// function map(array: unknown[], f: (item: unknown) => unknown): unknown[] {
+//   let result = []
+//   for (let i = 0; i < array.length; i++) {
+//     result[i] = f(array[i])
+//   }
+//   return result
+// }
+
+// function map<T, U>(array: T[], f: (item: T) => U): U[] {
+//   let result = []
+//   for (let i = 0; i < array.length; i++) {
+//     result[i] = f(array[i])
+//   }
+//   console.log(array)
+//   console.log(f.toString())
+// 
+//   return result
+// }
+
+// let result = map(
+//   ['a', 'b', 'c'],
+//   _ => _ === 'a'
+// )
+// 
+// console.log(result)
+
+// let result = map<string, boolean>(
+//   ['a', 'b', 'c'],
+//   _ => _ === 'a'
+// )
+// 
+// console.log(result)
+
+// let result = map<string>( // error, should be 2 arguments
+//   ['a', 'b', 'c'],
+//   _ => _ === 'a'
+// )
+// 
+// console.log(result)
+
+// let result = map<string, boolean | string>(
+//   ['a', 'b', 'c'],
+//   _ => _ === 'a'
+// )
+// 
+// console.log(result)
+
+// let result = map<string, number>(
+//   ['a', 'b', 'c'],
+//   _ => _ === 'a' // error, should be boolean, not number type. number type in map<string, number>
+// )
+// 
+// console.log(result)
+
+// 20
+// let promise = new Promise(resolve =>
+//   resolve(45)
+// )
+// 
+// promise.then(result =>
+//   result * 4 // error, unknown type
+// )
+
+// let promise = new Promise<number>(resolve => // we use type number for Promise return
+//   resolve(45)
+// )
+// 
+// promise.then(result =>
+//   result * 4
+// ).then(result => {
+//   console.log(result);
+// });
+
+// 21
+// type MyEvent<T> = {
+//   target: T
+//   type: string
+// }
+// 
+// type ButtonEvent = MyEvent<HTMLButtonElement>
+// 
+// let myEvent: MyEvent<HTMLButtonElement | null> = {
+//   target: document.querySelector('#myButton'),
+//   type: 'click'
+// }
+// 
+// type TimedEvent<T> = {
+//   event: MyEvent<T>
+//   from: Date
+//   to: Date
+// }
+// 
+// function triggerEvent<T>(event: MyEvent<T>): void {
+// 
+// }
+// 
+// triggerEvent({
+//   target: document.querySelector('#myButton'),
+//   type: 'mouseover'
+// })
+
+// 22
+// type TreeNode = {
+//   value: string
+// }
+// type LeafNode = TreeNode & {
+//   isLeaf: true
+// }
+// type InnerNode = TreeNode & {
+//   children: [TreeNode] | [TreeNode, TreeNode]
+// }
+// 
+// let a: TreeNode = {value: 'a'}
+// let b: LeafNode = {value: 'b', isLeaf: true}
+// let c: InnerNode = {value: 'c', children: [b]}
+// 
+// let a1 = mapNode(a, _ => _.toUpperCase())
+// let b1 = mapNode(b, _ => _.toUpperCase())
+// let c1 = mapNode(c, _ => _.toUpperCase())
+// 
+// function mapNode<T extends TreeNode>( // T is TreeNode or LeafNode or InnerNode
+//   node: T,
+//   f: (value: string) => string
+// ): T {
+//   return {
+//     ...node, // send T object
+//     value: f(node.value) // rewrite property value
+//   }
+// }
+// 
+// console.log(a1)
+// console.log(b1)
+// console.log(c1)
+
+// const adrian = {
+//     fullName: 'Adrian Oprea',
+//     occupation: 'Software developer',
+//     age: 31,
+//     website: 'https://oprea.rocks'
+// };
+// 
+// const bill = {
+//     ...adrian,
+//     fullName: 'Bill Gates',
+//     website: 'https://microsoft.com'
+// };
+// 
+// console.log(adrian)
+// console.log(bill)
+
+// 23
+// type HasSides = {numberOfSides: number}
+// type SidesHaveLength = {sideLength: number}
+// 
+// function logPerimeter<
+// Shape extends HasSides & SidesHaveLength
+// >(s: Shape): Shape { // this function gets s: Shape. Function should returns Shape object. Shape should have numberOfSides and sideLength properties because of &
+//   console.log(s.numberOfSides * s.sideLength) // function multiple in console.log
+//   return s // function returns object s without changing
+// }
+// 
+// type Square = HasSides & SidesHaveLength
+// let square: Square = {numberOfSides: 4, sideLength: 3}
+// logPerimeter(square)
+// console.log(logPerimeter(square))
+
+// 24
+// function call(
+//   f: (...args: unknown[]) => unknown,
+//   ...args: unknown[]
+// ): unknown {
+//   return f(...args)
+// }
+
+function call<T extends unknown[], R>(
+  f: (...args: T) => R,
+  ...args: T
+): R { // f is function fill, ...args is an array [10, 'a']
+  // console.log(f.toString())
+  // console.log(args)
+  return f(...args) // call function call, and send [10, 'a'] as arguments
 }
 
-let result = filter(
-  names,
-  _ => true
-  // _ => _.firstName.startsWith('b') // error, property firstName does not exist
-)
+function fill(length: number, value: string): string[] { // length = 10, value = 'a'
+  // console.log(length)
+  // console.log(value)
+  // console.log(Array.from({length}, () => value))
+  return Array.from({length}, () => value) // creates array, 10 elements with a string
+}
 
-// result[0].firstName // error, property firstName does not exist
+call(fill, 10, 'a')
+// console.log(call(fill, 10, 'a'))
+
+// let length2 = 10
+// let value = 'a'
+// console.log(Array.from({length2}, () => value))
 
