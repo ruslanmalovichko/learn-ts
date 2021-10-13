@@ -8,6 +8,8 @@
 // let d = c.apple * 4
 // let e = 'Test' + []
 
+import {type} from "os"
+
 // 2
 // function squareOf(n: number) {
 //   return n * n;
@@ -698,7 +700,7 @@
 // console.log(a.next())
 
 // 12
-// type Log = (message: string, userId?: string) => void // function type, we write message and userId parametrs and what return - void, nothing
+// type Log = (message: string, userId?: string) => void // function type, we write message and userId parameters and what return - void, nothing
 // 
 // let log: Log = (
 //   message,
@@ -712,7 +714,7 @@
 
 // 13
 // function times(
-//   f: (index: number) => void, // f is arrow function with n parametr
+//   f: (index: number) => void, // f is arrow function with n parameter
 //   n: number
 // ) {
 //   for (let i = 0; i < n; i++) {
@@ -723,9 +725,9 @@
 // times(n => console.log(n), 4)
 
 // 14
-// type Log = (message: string, userId?: string) => void // function type, we write message and userId parametrs and what return - void, nothing
+// type Log = (message: string, userId?: string) => void // function type, we write message and userId parameters and what return - void, nothing
 // type Log = {
-//   (message: string, userId?: string): void // function type, we write message and userId parametrs and what return - void, nothing
+//   (message: string, userId?: string): void // function type, we write message and userId parameters and what return - void, nothing
 // }
 
 // 15
@@ -1026,26 +1028,327 @@
 //   return f(...args)
 // }
 
-function call<T extends unknown[], R>(
-  f: (...args: T) => R,
-  ...args: T
-): R { // f is function fill, ...args is an array [10, 'a']
-  // console.log(f.toString())
-  // console.log(args)
-  return f(...args) // call function call, and send [10, 'a'] as arguments
-}
+// function call<T extends unknown[], R>( // T should be an array
+//   f: (...args: T) => R,
+//   ...args: T
+// ): R { // f is function fill, ...args is an array [10, 'a']
+//   // console.log(f.toString())
+//   // console.log(args)
+//   return f(...args) // call function call, and send [10, 'a'] as arguments
+// }
+// 
+// function fill(length: number, value: string): string[] { // length = 10, value = 'a'
+//   // console.log(length)
+//   // console.log(value)
+//   // console.log(Array.from({length}, () => value))
+//   return Array.from({length}, () => value) // creates array, 10 elements with a string
+// }
+// 
+// call(fill, 10, 'a')
+// console.log(call(fill, 10, 'a'))
+// let a = call(fill, 10, 'a')
+// let b = call(fill, 10) // error, should be 2 arguments
+// let c = call(fill, 10, 'a', 'z') // error, should be 2 arguments
 
-function fill(length: number, value: string): string[] { // length = 10, value = 'a'
-  // console.log(length)
-  // console.log(value)
-  // console.log(Array.from({length}, () => value))
-  return Array.from({length}, () => value) // creates array, 10 elements with a string
-}
+// 25
+// type MyEvent<T> = {
+//   target: T
+//   type: string
+// }
 
-call(fill, 10, 'a')
+// let buttonEvent: MyEvent<HTMLButtonElement> = {
+//   target: myButton,
+//   type: string
+// }
+
+// type MyEvent<T = HTMLElement> = { // if we doesn't send specify type for T, we use HTMLElement by default
+//   target: T
+//   type: string
+// }
+
+// type MyEvent<T extends HTMLElement = HTMLElement> = { // if we doesn't send specify type for T, we use HTMLElement by default. Extends: T should be like HTMLElement
+
+//   target: T
+//   type: string
+// }
+// 
+// let myEvent: MyEvent = {
+//   target: myElement,
+//   type: string
+// }
+// 
+// type MyEvent2<
+//   Type extends string,
+//   Target extends HTMLElement = HTMLElement,
+// > = { // if we doesn't send specify type for Target, we use HTMLElement by default. Extends: Target should be like HTMLElement
+//   target: Target
+//   type: Type
+// }
+
+// type MyEvent3<
+//   Target extends HTMLElement = HTMLElement,
+//   Type extends string,
+// > = { // error, optional parameters should be last
+//   target: Target
+//   type: Type
+// }
+
+// Tasks in Part 4:
+// 1:
+// wrong, we use types in function parameters and we use types in for return function
+// TypeScript always infers a function's return type. TypeScript sometimes
+// infers a function's parameter types, if it can infer them from context (for
+// example, if the function is a callback).
+//
+// 2:
+// object arguments is not secure, use parameters with ... with type
+// function sumVariadicSafe(...numbers: number[]): number { // ...numbers parameters creates an array from arguments
+//   return numbers.reduce((total, n) => total + n, 0)
+// }
+// 
+// console.log(sumVariadicSafe(1, 2, 3))
+//
+// 3:
+// type Reserve = {
+//   (from: Date, to: Date, destination: string): string
+//   (from: Date, destination: string): string
+//   (destination: string): string
+// }
+
+// let reserve: Reserve = (
+//   from: Date,
+//   toOrDestination: Date | string,
+//   destination?: string
+// ) => {
+// let filter: Filter = (array, f) => {
+//   console.log(f.toString())
+//   return array
+// }
+// let reserve: Reserve = (
+//   fromOrDestination: Date | string,
+//   toOrDestination?: Date | string,
+//   destination?: string
+// ) => {
+//   console.log(fromOrDestination)
+//   console.log(toOrDestination)
+//   console.log(destination)
+//   if (typeof fromOrDestination === 'string') {
+//     return 'Ticket one way, without date from'
+//   }
+//   else if(toOrDestination instanceof Date && destination !== undefined) {
+//     return 'Ticket two ways'
+//   }
+//   else if (typeof toOrDestination === 'string') {
+//     return 'Ticket one way, with date from'
+//   }
+//   else {
+//     return 'Error'
+//   }
+// }
+// console.log(reserve(new Date(), new Date(2022, 1, 1), 'test'))
+// console.log(reserve(new Date(), 'test'))
+// console.log('test')
+
+// 4:
+// function call<T extends [unknown, string, ...unknown[]], R>(
+// // function call<T extends [unknown, string], R>( // T should be an array
+//   f: (...args: T) => R,
+//   ...args: T
+// ): R { // f is function fill, ...args is an array [10, 'a']
+//   // console.log(f.toString())
+//   // console.log(args)
+//   return f(...args) // call function call, and send [10, 'a'] as arguments
+// }
+// 
+// function fill(length: number, value: string): string[] { // length = 10, value = 'a'
+//   // console.log(length)
+//   // console.log(value)
+//   // console.log(Array.from({length}, () => value))
+//   return Array.from({length}, () => value) // creates array, 10 elements with a string
+// }
+// 
+// call(fill, 10, 'a')
 // console.log(call(fill, 10, 'a'))
 
-// let length2 = 10
-// let value = 'a'
-// console.log(Array.from({length2}, () => value))
+// 5:
+// type Is = {
+//   (type: string, value: string): boolean
+//   (type: boolean, value: boolean): boolean
+// }
+
+// type Is = {
+//   // <T>(type: T, value: T): boolean
+//   <T>(type: T, ...other: T[]): boolean
+// }
+
+// type Is = {
+//   <T>(type: T, ...other: [T, ...T[]]): boolean // currently I can't see the difference from ...other: T[]
+// }
+
+// let is: Is = (type, ...other) => {
+//   let result = other.map(function(value) {
+//     // console.log('Ruslan 1')
+//     // console.log(value)
+//     // console.log(type)
+//     // console.log('Ruslan 2')
+// 
+//     if (JSON.stringify(value) !== JSON.stringify(type)) {
+//       return false
+//     }
+//     else return true
+//   });
+//   // console.log('Ruslan 3')
+//   // console.log(result)
+//   // console.log('Ruslan 3')
+// 
+//   if (result.includes(false)) return false
+// 
+//   return true
+// }
+
+// function is<T>(a: T, ...b: [T, ...T[]]): boolean {
+// return b.every(_ => _ === a)
+// }
+
+// let is: Is = (type, ...other) => { // is var is waiting for 2 or more arguments
+//   console.log(type)
+//   console.log(other)
+//   // return other.every(_ => _ === type)
+//   return other.every(value => JSON.stringify(value) === JSON.stringify(type))
+// }
+
+// console.log(is('string', 'otherstring'))
+// console.log(is(true, false))
+// console.log(is(42, 42))
+// // // console.log(is(10, 'foo')) // error, can't assign string to number
+// console.log(is([1], [1], [1, 2, 3]))
+// console.log(is([1], [1], [1]))
+/// console.log(is([1], [1, '2'], [1], [1], [1], [1]))
+
+// Research ...
+// type RuslanTest = {(type: number, ...number2: number[]): boolean}
+// let ruslanTest: RuslanTest = (number) => { // let can be without parameters in type. But if we add parameter then it should be number like in type
+//   console.log(number)
+//   // console.log(number2)
+//   // console.log(number3)
+//   // return number === number2
+//   return true
+// }
+// 
+// console.log(ruslanTest(1, 1, 1))
+
+// let is: Is = (type, ...other) => {
+//   let result = other.map(function(value) {
+//     // console.log('Ruslan 1')
+//     // console.log(value)
+//     // console.log(type)
+//     // console.log('Ruslan 2')
+// 
+//     if (JSON.stringify(value) !== JSON.stringify(type)) {
+//       return false
+//     }
+//     else return true
+//   });
+//   // console.log('Ruslan 3')
+//   // console.log(result)
+//   // console.log('Ruslan 3')
+// 
+//   if (result.includes(false)) return false
+// 
+//   return true
+// }
+
+// Part 4 of book
+// 1
+// class Game {
+//   private pieces = Game.makePieces()
+//   private static makePieces() { // We can call Game.makePieces() without creating new Game
+//     return [
+//       new King('White', 'E', 1),
+//       new King('Black', 'E', 8),
+//       // new King('Black', 'J', 12), // error, argument J is not assignable to type File, 12 is not assignable to type Rank
+// 
+//       new Queen('White', 'D', 1),
+//       new Queen('Black', 'D', 8),
+// 
+//       new Bishop('White', 'C', 1),
+//       new Bishop('White', 'F', 1),
+//       new Bishop('Black', 'C', 8),
+//       new Bishop('Black', 'F', 8),
+//     ]
+//   }
+// }
+// 
+// class Position {
+//   constructor(
+//     private file: File, // apply parametr file to this: this.file. Private makes this file be available from Position only
+//     private rank: Rank
+//   ) {}
+//   distanceFrom(position: Position) {
+//     return {
+//       rank: Math.abs(position.rank - this.rank),
+//       file: Math.abs(position.file.charCodeAt(0) - this.file.charCodeAt(0))
+//     }
+//   }
+// }
+// 
+// // class Piece {
+// abstract class Piece {
+//   protected position: Position // shoud be initialised here or in constructor. Protected make this position be available from Piece and children from this class
+//   constructor(
+//     private readonly color: Color, // readonly: can't be changed, like const
+//     file: File,
+//     rank: Rank
+//   ) {
+//     this.position = new Position(file, rank) // When we create new Piece we get arguments file and rank. And we creates new Position with thease file and rank
+//   }
+//   moveTo(position: Position) {
+//     this.position = position
+//   }
+//   abstract canMoveTo(position: Position): boolean // should be emplemented in children classes
+// }
+// 
+// class King extends Piece {
+//   canMoveTo(position: Position) {
+//     let distance = this.position.distanceFrom(position)
+//     return distance.rank < 2 && distance.file < 2
+//   }
+// }
+// class Queen extends Piece {}
+// class Bishop extends Piece {}
+// class Knight extends Piece {}
+// class Rook extends Piece {}
+// class Pawn extends Piece {}
+// 
+// type Color = 'Black' | 'White'
+// type File = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H'
+// type Rank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+
+// console.log(new Piece('White', 'E', 1)) error, we can't create instance (object) of abstract class
+
+// 2
+let set = new Set
+set.add(1).add(2).add(3)
+console.log(set.has(2))
+console.log(set.has(4))
+
+class Set {
+  has(value: number): boolean {
+
+  }
+  // add(value: number): Set {
+  add(value: number): this { // inside MutableSet class it will use MutableSet type
+  // inside Set class it will use Set type
+
+  }
+}
+
+class MutableSet extends Set {
+  delete(value: number): boolean {
+
+  }
+  // add(value: number): MutableSet { // We can comment this add method because inside class Set we have method add, with type this. Inside MutableSet type will be MutableSet
+
+  // }
+}
 
