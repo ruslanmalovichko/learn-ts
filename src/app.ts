@@ -1424,12 +1424,109 @@ import {type} from "os"
 //   age: 30
 // }
 
-type User = { // error, duplicate of type User
-  name: string
+// type User = { // error, duplicate of type User
+//   name: string
+// }
+// 
+// type User = { // error, duplicate of type User
+//   age: number
+// }
+
+// interface User {
+//   age: string
+// }
+// 
+// interface User {
+//   age: number // error, age must be string
+// }
+
+// interface User<Age extends number> { // error, should be identical type
+//   age: Age
+// }
+// 
+// interface User<Age extends string> {
+//   age: Age
+// }
+
+// 5
+// interface Animal {
+//   eat(food: string): void
+//   sleep(hours: number): void
+// }
+// 
+// class Cat implements Animal {
+//   eat(food: string) {
+//     console.log('Ate some', food, ' . Mmm!')
+//   }
+//   sleep(hours: number) {
+//     console.log('Slept for', hours, 'hours')
+//   }
+// }
+
+// interface Animal {
+//   readonly name: string
+//   eat(food: string): void
+//   sleep(hours: number): void
+// }
+// 
+// interface Feline {
+//   meow(): void
+// }
+// 
+// class Cat implements Animal, Feline {
+//   name = 'Whiskers'
+//   eat(food: string) {
+//     console.info('Ate some', food, '. Mmm!')
+//   }
+//   sleep(hours: number) {
+//     console.info('Slept for', hours, 'hours')
+//   }
+//   meow() {
+//     console.log('Meow')
+//   }
+// }
+
+// 6
+// class Zebra {
+//   trot() {
+//     console.log('zebra')
+//   }
+// }
+// 
+// class Poodle {
+//   trot() {
+//     console.log('poodle')
+//   }
+// }
+// 
+// function ambleAround(animal: Zebra) { // no error, because TypeScript checks by structure. Poodle has trot, so OK
+//   animal.trot()
+// }
+// 
+// let zebra = new Zebra
+// let poodle = new Poodle
+// 
+// ambleAround(zebra)
+// ambleAround(poodle)
+
+// class A {
+//   private x = 1
+// }
+// 
+// class B extends A {}
+// function f(a: A) {
+//   console.log(a.x) // error, property x is private
+// }
+// f(new A)
+// f(new B)
+// f({x: 3}) // error, property x is private
+
+// 7
+type a = number
+interface b {
+  (): void
 }
 
-type User = { // error, duplicate of type User
-  age: number
-}
-
+let a: a = 1999
+function b() {}
 
