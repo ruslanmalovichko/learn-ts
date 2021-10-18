@@ -1327,28 +1327,109 @@ import {type} from "os"
 // console.log(new Piece('White', 'E', 1)) error, we can't create instance (object) of abstract class
 
 // 2
-let set = new Set
-set.add(1).add(2).add(3)
-console.log(set.has(2))
-console.log(set.has(4))
+// let set = new Set
+// set.add(1).add(2).add(3)
+// console.log(set.has(2))
+// console.log(set.has(4))
+// 
+// class Set {
+//   has(value: number): boolean {
+// 
+//   }
+//   // add(value: number): Set {
+//   add(value: number): this { // inside MutableSet class it will use MutableSet type
+//   // inside Set class it will use Set type
+// 
+//   }
+// }
+// 
+// class MutableSet extends Set {
+//   delete(value: number): boolean {
+// 
+//   }
+//   // add(value: number): MutableSet { // We can comment this add method because inside class Set we have method add, with type this. Inside MutableSet type will be MutableSet
+// 
+//   // }
+// }
 
-class Set {
-  has(value: number): boolean {
+// 3
+// type Sushi = {
+//   calories: number
+//   salty: boolean
+//   tasty: boolean
+// }
 
-  }
-  // add(value: number): Set {
-  add(value: number): this { // inside MutableSet class it will use MutableSet type
-  // inside Set class it will use Set type
+// interface Sushi {
+//   calories: number
+//   salty: boolean
+//   tasty: boolean
+// }
+// 
+// type Cake = {
+//   calories: number
+//   sweet: boolean
+//   tasty: boolean
+// }
 
-  }
+// type Food = {
+//   calories: number
+//   tasty: boolean
+// }
+// 
+// type Sushi = Food & {
+//   salty: boolean
+// }
+// 
+// type Cake = Food & {
+//   sweet: boolean
+// }
+
+// interface Food {
+//   calories: number
+//   tasty: boolean
+// }
+// 
+// interface Sushi extends Food {
+//   salty: boolean
+// }
+// 
+// interface Cake extends Food {
+//   sweet: boolean
+// }
+// 
+// type A = number // can't be written as interface
+// type B = A | string // can't be written as interface
+
+// interface A {
+//   good(x: number): string
+//   bad(x: number): string
+// }
+// 
+// interface B extends A {
+//   good(x: string | number): string
+//   bad(x: string): string // error, number is not assignable with string
+// }
+
+// 4
+// interface User {
+//   name: string
+// }
+// 
+// interface User {
+//   age: number
+// }
+// 
+// let a: User = {
+//   name: 'Ashley',
+//   age: 30
+// }
+
+type User = { // error, duplicate of type User
+  name: string
 }
 
-class MutableSet extends Set {
-  delete(value: number): boolean {
-
-  }
-  // add(value: number): MutableSet { // We can comment this add method because inside class Set we have method add, with type this. Inside MutableSet type will be MutableSet
-
-  // }
+type User = { // error, duplicate of type User
+  age: number
 }
+
 
