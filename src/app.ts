@@ -1522,11 +1522,41 @@ import {type} from "os"
 // f({x: 3}) // error, property x is private
 
 // 7
-type a = number
-interface b {
-  (): void
+// type a = number
+// interface b {
+//   (): void
+// }
+// 
+// let a: a = 1999
+// function b() {}
+// 
+// if (a + 1 > 3) {}
+// let x: a = 3
+// 
+// class C {}
+// let c: C = new C
+// 
+// enum E {F, G}
+// let e: E = E.F
+
+type State = {
+  [key: string]: string // we can add a lot properties with string key like 'text'. It is equal to string like 'text'
 }
 
-let a: a = 1999
-function b() {}
+class StringDatabase {
+  state: State = {}
+  get(key: string): string | null {
+    return key in this.state ? this.state[key] : null
+  }
+  set(key: string, value: string): void {
+    this.state[key] = value
+  }
+  static from(state: State) {
+    let db = new StringDatabase
+    for (let key in state) {
+      db.set(key, state[key])
+    }
+    return db
+  }
+}
 
