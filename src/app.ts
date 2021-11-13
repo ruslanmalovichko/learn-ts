@@ -1574,4 +1574,36 @@ import {type} from "os"
 // Currently can not debug StringDatabaseConstructor, StringDatabase, State
 
 // 8
+// interface MyMap<K, V> {
+//   get(key: K): V
+//   set(key: K, value: V): void
+// }
+// 
+// class MyMap<K, V> {
+//   constructor(initialKey: K, initialValue: V) {
+// 
+//   }
+//   get(key: K): V {
+// 
+//   }
+//   set(key: K, value: V): void {
+// 
+//   }
+//   merge of<K, V>(k: K, v: V): MyMap<K, V> {
+// 
+//   }
+//   static of<K, V>(k: K, v: V): MyMap<K, V> {
+// 
+//   }
+// }
+// 
+// let a = new MyMap<string, number>('k', 1)
+// let b = new MyMap('k', true)
+// 
+// a.get('k')
+// b.set('k', false)
+
+// Currently can not debug. Errors
+
+// 9
 
