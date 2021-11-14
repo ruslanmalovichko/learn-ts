@@ -1606,4 +1606,42 @@ import {type} from "os"
 // Currently can not debug. Errors
 
 // 9
+// type ClassConstructor = new(...args: any[]) => {}
+// type ClassConstructor<T> = new(...args: any[]) => T
+// 
+// function withEZDebug<C extends ClassConstructor<{
+//   getDebugValue(): object
+// }>>(Class: C) {
+//   return class extends Class {
+//     // constructor(...args: any[]) {
+//     //   super(...args)
+//     // }
+//     debug() {
+//       let Name = Class.constructor.name
+//       console.log(Object.getOwnPropertyNames(Class.constructor))
+//       let value = this.getDebugValue()
+//       return Name + '(' + JSON.stringify(value) + ')'
+//     }
+//   }
+// }
+// 
+// class HardToDebugUser {
+//   constructor(
+//     private id: number,
+//     private firstName: string,
+//     private lastName: string
+//   ) {}
+//   getDebugValue() {
+//     return {
+//       id: this.id,
+//       name: this.firstName + ' ' + this.lastName
+//     }
+//   }
+// }
+// 
+// let User = withEZDebug(HardToDebugUser) // Add debug method to HardToDebugUser
+// let user = new User(3, 'Emma', 'Gluzman') // Create object user from HardToDebugUser class plus debug method
+// console.log(user.debug()) // Debug method reads Class.constructor.name and getDebugValue method
+
+// 10
 
