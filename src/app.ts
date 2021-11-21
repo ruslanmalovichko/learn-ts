@@ -1644,4 +1644,44 @@ import {type} from "os"
 // console.log(user.debug()) // Debug method reads Class.constructor.name and getDebugValue method
 
 // 10
+// @serializable
+// class APIPayload {
+//   getValue(): Payload {
+//     let a: any = 'returned value'
+//     return a
+//   }
+// }
+
+// 11
+// let APIPayload = serializable(class APIPayload {
+//   getValue(): Payload {
+//     let a: any
+//     return a
+//   }
+// })
+
+// 12
+// type ClassConstructor<T> = new(...args: any[]) => T
+// 
+// function serializable<
+//   T extends ClassConstructor<{
+//     getValue(): Payload
+//   }>
+// >(Constructor: T) {
+//   return class extends Constructor {
+//     serialize() {
+//       return this.getValue().toString()
+//     }
+//   }
+// }
+// 
+// class Payload {}
+
+// let payload = new APIPayload
+// let serialized = payload.serialize() // error, property serialize does not exist at APIPayload
+// console.log(serialized)
+
+// let DecoratedAPIPayload = serializable(APIPayload)
+// let payload = new DecoratedAPIPayload
+// console.log(payload.serialize()) // Use serialize at decorator. Inside serialize we call getValue from APIPayload
 
