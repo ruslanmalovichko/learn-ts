@@ -1685,3 +1685,15 @@ import {type} from "os"
 // let payload = new DecoratedAPIPayload
 // console.log(payload.serialize()) // Use serialize at decorator. Inside serialize we call getValue from APIPayload
 
+// 13
+// class MessageQueue {
+//   private constructor(private messages: string[]) {}
+//   static create(messages: string[]) {
+//     return new MessageQueue(messages)
+//   }
+// }
+
+// class BadQueue extends MessageQueue {} // error, can not extend
+// new MessageQueue([]) // error, constructor is private
+// MessageQueue.create([]) // we can use create method
+
