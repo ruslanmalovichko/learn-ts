@@ -1903,4 +1903,130 @@ import {type} from "os"
 // Part 6
 
 // 1
+// type ExistingUser = {
+//   id: number // (number) is subtype of (number | undefined)
+//   name: string
+// }
+// 
+// type NewUser = {
+//   name: string
+// }
+// 
+// function deleteUser(user: {id?: number, name: string}) { // id has type (number | undefined) is supertype of (number)
+//   delete user.id
+// }
+// 
+// let existingUser: ExistingUser = {
+//   id: 123456,
+//   name: 'Ima User'
+// }
+// 
+// deleteUser(existingUser)
+// // console.log(user)
+// console.log(existingUser)
+// 
+// deleteUser(existingUser) // In this case existingUser does not have id. But it is not an error
+// console.log(existingUser)
+
+// 2
+// type LegacyUser = {
+//   id?: number | string
+//   name: string
+// }
+// 
+// let legacyUser: LegacyUser = {
+//   // id: '793331',
+//   id: 793331,
+//   name: 'Xin Yang'
+// }
+// 
+// function deleteUser(user: {id?: number, name: string}) { // id has type (number | undefined) is subtype of (string | number | undefined). Its an error. Function should be supertype
+//   delete user.id
+// }
+// 
+// deleteUser(legacyUser)
+
+// 3
+// class Animal {}
+// 
+// class Bird extends Animal { // Bird is supertype of Animal
+//   chirp() {}
+// }
+// 
+// class Crow extends Bird { // Crow is subtype of Bird and Animal
+//   caw() {}
+// }
+// 
+// function chirp(bird: Bird): Bird {
+//   bird.chirp()
+//   return bird
+// }
+// 
+// chirp(new Animal) // error, we not allow supertype of bird
+// chirp(new Bird) // we allow type bird
+// chirp(new Crow) // we allow subtype of bird
+
+// 4
+// function clone(f: (b: Bird) => Bird): void {
+// 
+// }
+
+// function birdToBird(b: Bird): Bird {
+//   return new Bird
+// }
+// clone(birdToBird)
+// 
+// function birdToCrow(b: Bird): Crow {
+//   return new Crow
+// }
+// clone(birdToCrow)
+// 
+// function birdToAnimal(b: Bird): Animal {
+//   return new Animal
+// }
+// clone(birdToAnimal) // error, Animal is supertype of Bird. We do not allow supertype in return function
+// 
+// function clone(f: (b: Bird) => Bird): void {
+//   let parent = new Bird
+//   let babyBird = f(parent)
+//   babyBird.chirp() // We do not have chirp method at supertype Animal
+// }
+// 
+// function animalToBird(a: Animal): Bird {
+//   return new Bird
+// }
+// clone(animalToBird)
+// 
+// function crowToBird(c: Crow): Bird {
+//   c.caw()
+//   return new Bird
+// }
+// clone(crowToBird) // error, we do not allow Crow subtype in parametr function, only Bird type or Animal supertype. clone required parameter Bird type without a caw method. Crow type has a caw method and can use it in crowToBird function. But we do not allow it at clone parameters
+
+// 5
+// let a = 'x' // string
+// let b = 3 // number
+// var c = true // boolean
+// const d = {x: 3} // {x: number}
+// 
+// enum E {X, Y, Z}
+// let e = E.X // E
+
+// 6
+// const a = 'x' // 'x'
+// const b = 3 // 3
+// const c = true // true
+// enum E {X, Y, Z}
+// const e = E.X // E.X
+
+// 7
+// let a: 'x' = 'x' // 'x'
+// let b: 3 = 3 // 3
+// var c: true = true // true
+// const d: {x: 3} = {x: 3} // {x: 3}
+// 
+// enum E {X, Y, Z}
+// let e = E.X // E
+
+// 8
 
