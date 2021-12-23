@@ -2029,4 +2029,31 @@ import {type} from "os"
 // let e = E.X // E
 
 // 8
+// const a = 'x' // 'x'
+// let b = a // string, TypeScript extends the type from 'x' to string
+// 
+// const c: 'x' = 'x' // 'x'
+// let d = c // 'x', TypeScript does not extend type because we've anotated 'x' type
+
+// 9
+// let a = null // any
+// a = 3 // any
+// a = 'b' // any
+
+// 10
+// function x() {
+//   let a = null // any
+//   a = 3 // any
+//   a = 'b' // any
+//   return a
+// }
+
+// x() // string, TypeScript assigns the type string by 'b' value out of the function
+
+// 11
+// let a = {x: 3} // {x: number}
+// let b: {x: 3} // {x: 3}
+// let c = {x: 3} as const // {readonly x: 3} // Type can not be changed
+
+// 12
 
