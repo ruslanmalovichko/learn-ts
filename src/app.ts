@@ -2186,21 +2186,60 @@ import {type} from "os"
 // We checked type of event.value, so TypeScript knows that inside if event.value type is string, out of if event.value type is [number, number]. But TypeScript does not know event.target and event.test
 
 // 17
-type UserTextEvent = {type: 'TextEvent', value: string, target: HTMLInputElement} // type can be with another name, it stores special string - tag, it can be with another name too
-type UserMouseEvent = {type: 'MouseEvent', value: [number, number], target: HTMLElement} // type can be with another name, it stores special string - tag, it can be with another name too
-
-type UserEvent = UserTextEvent | UserMouseEvent
-
-function handle(event: UserEvent) {
-  if (event.type === 'TextEvent') {
-    console.log(event.value) // string
-    console.log(event.target) // HTMLInputElement
-    return 'It is text event'
-  }
-  console.log(event.value) // [number, number]
-  console.log(event.target) // HTMLElement
-  return 'It is mouse event'
-}
+// type UserTextEvent = {type: 'TextEvent', value: string, target: HTMLInputElement} // type can be with another name, it stores special string - tag, it can be with another name too
+// type UserMouseEvent = {type: 'MouseEvent', value: [number, number], target: HTMLElement} // type can be with another name, it stores special string - tag, it can be with another name too
+// 
+// type UserEvent = UserTextEvent | UserMouseEvent
+// 
+// function handle(event: UserEvent) {
+//   if (event.type === 'TextEvent') {
+//     console.log(event.value) // string
+//     console.log(event.target) // HTMLInputElement
+//     return 'It is text event'
+//   }
+//   console.log(event.value) // [number, number]
+//   console.log(event.target) // HTMLElement
+//   return 'It is mouse event'
+// }
 
 // We checked special string - tag, not type. TypeScript knows all types of all properties
+
+// 18
+// type Weekday = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri'
+// type Day = Weekday | 'Sat' | 'Sun'
+// 
+// function getNextDay(w: Weekday): Day { // error, lack ending. We can set return type Day | undefined
+//   switch (w) {
+//     case 'Mon': return 'Tue'
+//   }
+//   // return 'Tue' // We can add return for other cases
+// }
+
+// 19
+// function isBig(n: number) {
+//   if (n >= 100) {
+//     return true
+//   }
+// }
+
+// 20
+// let nextDay = {
+//   Mon: 'Tue'
+// }
+// 
+// console.log(nextDay.Mon)
+
+// 21
+type APIResponse = {
+  user: {
+    userId: string
+    friendList: {
+      count: number
+      friends: {
+        firstName: string
+        lastName: string
+      }[]
+    }
+  }
+}
 
