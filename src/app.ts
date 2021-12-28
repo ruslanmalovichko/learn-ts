@@ -2053,7 +2053,154 @@ import {type} from "os"
 // 11
 // let a = {x: 3} // {x: number}
 // let b: {x: 3} // {x: 3}
-// let c = {x: 3} as const // {readonly x: 3} // Type can not be changed
+// let c = {x: 3} as const // {readonly x: 3} // Type can not be changed, narrow type
 
 // 12
+// let d = [1, {x: 2}] // (number | {x: number})[]
+// const dd = [1, {x: 2}] // (number | {x: number})[] // type with const the same as let
+// let e = [1, {x: 2}] as const // readonly [1, {readonly x: 2}] // Type can not be changed, inside too, narrow type
+// const ee = [1, {x: 2}] as const // readonly [1, {readonly x: 2}] // type with const the same as let
+
+// 13
+// type Options = {
+//   baseURL: string
+//   cacheSize?: number
+//   tier?: 'prod' | 'dev'
+// }
+// 
+// class API {
+//   constructor (private options: Options) {}
+// }
+// 
+// new API({
+//   baseURL: 'https://api.mysite.com',
+//   tier: 'prod'
+// })
+// 
+// new API({
+//   baseURL: 'https://api.mysite.com',
+//   // tierr: 'prod' // error, property tierr is not exist in Options
+// })
+// 
+// new API({
+//   baseURL: 'https://api.mysite.com',
+//   // badTier: 'prod' // error, property badTier is not exist in Options
+// })
+// 
+// new API({
+//   baseURL: 'https://api.mysite.com',
+//   badTier: 'prod'
+// } as Options)
+// 
+// let badOptions = {
+//   baseURL: 'https://api.mysite.com',
+//   badTier: 'prod'
+// }
+// new API(badOptions)
+// 
+// let options: Options = {
+//   baseURL: 'https://api.mysite.com',
+//   // badTier: 'prod' // error, property badTier is not exist in Options
+// }
+// 
+// new API(options)
+
+// 14
+// type Unit = 'cm' | 'px' | '%'
+// let units: Unit[] = ['cm', 'px', '%']
+// 
+// function parseUnit(value: string): Unit | null {
+//   for (let i = 0; i < units.length; i++) {
+//     if (value.endsWith(units[i])) { // If string ends with one of units value, so return this units value
+//       return units[i]
+//     }
+//   }
+//   return null
+// }
+// 
+// type Width = {
+//   unit: Unit,
+//   value: number
+// }
+// 
+// function parseWidth(width: number | string | null | undefined): Width | null {
+//   if (width == null) {
+//     return null
+//   }
+// 
+//   if (typeof width === 'number') {
+//     return {unit: 'px', value: width}
+//   }
+//   let unit = parseUnit(width)
+//   if (unit) {
+//     return {
+//       unit, // short form: property name unit, value from value variable
+//       value: parseFloat(width) // property name value, value get number from width value variable
+//     }
+//   }
+// 
+//   return null
+// }
+// 
+// // console.log(parseUnit('10 px'))
+// console.log(parseWidth('10 px'))
+
+// 15
+// type UserTextEvent = {value: string}
+// type UserMouseEvent = {value: [number, number]}
+// 
+// type UserEvent = UserTextEvent | UserMouseEvent
+// 
+// function handle(event: UserEvent) {
+//   if (typeof event.value === 'string') {
+//     // event.value
+//     return 'It is text event'
+//   }
+//   // event.value
+// 
+//   return 'It is mouse event'
+// }
+// 
+// console.log(handle({value: 'test'}))
+// console.log(handle({value: [100, 200]}))
+
+// 16
+// type UserTextEvent = {value: string, target: HTMLInputElement, test: [string]}
+// type UserMouseEvent = {value: [number, number], target: HTMLElement, test: [number]}
+// 
+// type UserEvent = UserTextEvent | UserMouseEvent
+// 
+// function handle(event: UserEvent) {
+//   if (typeof event.value === 'string') {
+//     console.log(event.value) // string
+//     console.log(event.target) // HTMLInputElement | HTMLElement
+//     console.log(event.test) // [string] | [number]
+//     return 'It is text event'
+//   }
+//   console.log(event.value) // [number, number]
+//   console.log(event.target) // HTMLInputElement | HTMLElement
+//   console.log(event.test) // [string] | [number]
+//   return 'It is mouse event'
+// }
+
+// We checked type of event.value, so TypeScript knows that inside if event.value type is string, out of if event.value type is [number, number]. But TypeScript does not know event.target and event.test
+
+// 17
+type UserTextEvent = {type: 'TextEvent', value: string, target: HTMLInputElement} // type can be with another name, it stores special string - tag, it can be with another name too
+type UserMouseEvent = {type: 'MouseEvent', value: [number, number], target: HTMLElement} // type can be with another name, it stores special string - tag, it can be with another name too
+
+type UserEvent = UserTextEvent | UserMouseEvent
+
+function handle(event: UserEvent) {
+  if (event.type === 'TextEvent') {
+    console.log(event.value) // string
+    console.log(event.target) // HTMLInputElement
+    return 'It is text event'
+  }
+  console.log(event.value) // [number, number]
+  console.log(event.target) // HTMLElement
+  return 'It is mouse event'
+}
+
+// We checked special string - tag, not type. TypeScript knows all types of all properties
 
