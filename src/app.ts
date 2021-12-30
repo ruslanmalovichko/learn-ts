@@ -2404,71 +2404,90 @@ import {type} from "os"
 // }
 
 // 27
-type Account = {
-  id: number
-  isEmployee: boolean
-  notes: string[]
-}
+// type Account = {
+//   id: number
+//   isEmployee: boolean
+//   notes: string[]
+// }
+// 
+// type OptionalAccount = {
+//   [K in keyof Account]?: Account[K]
+// }
+// 
+// type NullableAccount = {
+//   [K in keyof Account]: Account[K] | null
+// }
+// 
+// type ReadonlyAccount = {
+//   readonly [K in keyof Account]: Account[K]
+// }
+// 
+// type Account2 = {
+//   -readonly [K in keyof ReadonlyAccount]: Account[K]
+// }
+// 
+// type Account3 = {
+//   [K in keyof OptionalAccount]-?: Account[K]
+// }
+// 
+// let account: Account = {
+//   id: 1,
+//   isEmployee: true,
+//   notes: ['Note 1']
+// }
+// 
+// account.id = 2
+// 
+// let optionalAccount: OptionalAccount = {
+// 
+// }
+// 
+// let nullableAccount: NullableAccount = {
+//   id: null,
+//   isEmployee: null,
+//   notes: null
+// }
+// 
+// let readonlyAccount: ReadonlyAccount = {
+//   id: 1,
+//   isEmployee: true,
+//   notes: ['Note 1']
+// }
+// 
+// // readonlyAccount.id = 2 // error, id is readonly
+// 
+// let account2: Account2 = {
+//   id: 1,
+//   isEmployee: true,
+//   notes: ['Note 1']
+// }
+// 
+// account2.id = 2
+// 
+// let account3: Account3 = {
+//   id: 1,
+//   isEmployee: true,
+//   notes: ['Note 1']
+// }
+// 
+// account3.id = 2
 
-type OptionalAccount = {
-  [K in keyof Account]?: Account[K]
-}
+// 28 From documentation about Utility Types: Pick
+// interface Todo {
+//   title: string;
+//   description: string;
+//   completed: boolean;
+// }
+// 
+// type TodoPreview = Pick<Todo, "title" | "completed">; // Pick gets title and completed methods from Todo
+// 
+// let todo: TodoPreview = {
+//   title: "Clean room",
+//   completed: false,
+//   // description: 'test' // error, description does not exist in type 'TodoPreview'
+// };
+// 
+// console.log(todo)
 
-type NullableAccount = {
-  [K in keyof Account]: Account[K] | null
-}
-
-type ReadonlyAccount = {
-  readonly [K in keyof Account]: Account[K]
-}
-
-type Account2 = {
-  -readonly [K in keyof ReadonlyAccount]: Account[K]
-}
-
-type Account3 = {
-  [K in keyof OptionalAccount]-?: Account[K]
-}
-
-let account: Account = {
-  id: 1,
-  isEmployee: true,
-  notes: ['Note 1']
-}
-
-account.id = 2
-
-let optionalAccount: OptionalAccount = {
-
-}
-
-let nullableAccount: NullableAccount = {
-  id: null,
-  isEmployee: null,
-  notes: null
-}
-
-let readonlyAccount: ReadonlyAccount = {
-  id: 1,
-  isEmployee: true,
-  notes: ['Note 1']
-}
-
-// readonlyAccount.id = 2 // error, id is readonly
-
-let account2: Account2 = {
-  id: 1,
-  isEmployee: true,
-  notes: ['Note 1']
-}
-
-account2.id = 2
-
-let account3: Account3 = {
-  id: 1,
-  isEmployee: true,
-  notes: ['Note 1']
-}
-
-account3.id = 2
+// 29
 
