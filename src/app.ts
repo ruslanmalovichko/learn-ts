@@ -8,6 +8,7 @@
 // let d = c.apple * 4
 // let e = 'Test' + []
 
+import {rejects} from "assert";
 import {type} from "os"
 
 // 2
@@ -2230,16 +2231,113 @@ import {type} from "os"
 // console.log(nextDay.Mon)
 
 // 21
-type APIResponse = {
-  user: {
-    userId: string
-    friendList: {
-      count: number
-      friends: {
-        firstName: string
-        lastName: string
-      }[]
-    }
-  }
+// let test = async () => {
+//   type APIResponse = {
+//     user: {
+//       userId: string
+//       friendList: {
+//         count: number
+//         friends: {
+//           firstName: string
+//           lastName: string
+//         }[]
+//       }
+//     }
+//   }
+// 
+//   // type APIResponse = {
+//   //   user: {
+//   //     userId: string
+//   //     friendList: FriendList
+//   //   }
+//   // }
+// 
+//   function getAPIResponse(): Promise<APIResponse> {
+//     let testUser = {
+//       user: {
+//         userId: '1X',
+//         friendList: {
+//           count: 123,
+//           friends: [
+//             {
+//               firstName: 'Ruslan',
+//               lastName: 'Malovichko'
+//             }
+//           ]
+//         }
+//       }
+//     }
+// 
+//     debugger
+// 
+//     console.log('ruslan-1')
+// 
+//     return new Promise((resolve, reject) => {
+//       console.log('ruslan-2')
+//       setTimeout(function(){
+//         console.log('ruslan-3')
+//         resolve(testUser)
+//       }, 2000);
+//     });
+//   }
+// 
+//   // type FriendList = {
+//   //   count: number
+//   //   friends: {
+//   //     firstName: string
+//   //     lastName: string
+//   //   }[]
+//   // }
+// 
+//   type FriendList = APIResponse['user']['friendList']
+//   type Friend = FriendList['friends'][number] // number is way for connection to array
+//   type ResponseKeys = keyof APIResponse // 'user'
+//   type UserKeys = keyof APIResponse['user'] // 'userId' | 'friendList'
+//   type FriendListKeys = keyof APIResponse['user']['friendList'] // 'count' | 'friends'
+// 
+//   // function renderFriendList(friendList: unknown) {
+//   function renderFriendList(friendList: FriendList) {
+// 
+//   }
+// 
+//   let response = await getAPIResponse()
+//   console.log(response)
+//   debugger
+//   renderFriendList(response.user.friendList)
+// }
+// 
+// test()
+
+// 22
+function get<
+  O extends object,
+  K extends keyof O
+>(
+  o: O,
+  k: K
+): O[K] {
+  return o[k]
+} // functions gets object and name of the object method. Function returns the value of object method
+
+type ActivityLog = {
+  lastEvent: Date
+  events: {
+    id: string
+    timestamp: Date
+    type: 'Read' | 'Write'
+  }[]
 }
+
+let activityLog: ActivityLog = {
+  lastEvent: new Date('2021-01-01'),
+  events: [
+    {
+      id: '1X',
+      timestamp: new Date('2021-01-01'),
+      type: 'Read'
+    }
+  ]
+}
+let lastEvent = get(activityLog, 'lastEvent')
+console.log(lastEvent)
 
