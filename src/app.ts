@@ -2319,57 +2319,87 @@ import {type} from "os"
 //   return o[k]
 // } // functions gets object and name of the object method. Function returns the value of object method
 // 
-type ActivityLog = {
-  lastEvent: Date
-  events: {
-    id: string
-    timestamp: Date
-    type: 'Read' | 'Write'
-  }[]
-}
-
-let activityLog: ActivityLog = {
-  lastEvent: new Date('2021-01-01'),
-  events: [
-    {
-      id: '1X',
-      timestamp: new Date('2021-01-01'),
-      type: 'Read'
-    }
-  ]
-}
+// type ActivityLog = {
+//   lastEvent: Date
+//   events: {
+//     id: string
+//     timestamp: Date
+//     type: 'Read' | 'Write'
+//   }[]
+// }
+// 
+// let activityLog: ActivityLog = {
+//   lastEvent: new Date('2021-01-01'),
+//   events: [
+//     {
+//       id: '1X',
+//       timestamp: new Date('2021-01-01'),
+//       type: 'Read'
+//     }
+//   ]
+// }
 // let lastEvent = get(activityLog, 'lastEvent')
 // console.log(lastEvent)
 
 // 23
-type Get = {
-  <
-    O extends object,
-    K1 extends keyof O
-  >(o: O, k1: K1): O[K1]
-  <
-    O extends object,
-    K1 extends keyof O,
-    K2 extends keyof O[K1]
-  >(o: O, k1: K1, k2: K2): O[K1][K2]
-  <
-    O extends object,
-    K1 extends keyof O,
-    K2 extends keyof O[K1],
-    K3 extends keyof O[K1][K2]
-  >(o: O, k1: K1, k2: K2, k3: K3): O[K1][K2][K3]
-}
-
-let get: Get = (object: any, ...keys: string[]) => { // object stores activityLog variable. keys stores an array with 'events', 0, 'type' values
-  let result = object
-  // keys.forEach(k => result = result[k])
-  keys.forEach(function(k) { // each iteration assigns to result value from next key
-    result = result[k]
-  })
-
-  return result
-}
-
-console.log(get(activityLog, 'events', 0, 'type'))
+// type Get = {
+//   <
+//     O extends object,
+//     K1 extends keyof O
+//   >(o: O, k1: K1): O[K1]
+//   <
+//     O extends object,
+//     K1 extends keyof O,
+//     K2 extends keyof O[K1]
+//   >(o: O, k1: K1, k2: K2): O[K1][K2]
+//   <
+//     O extends object,
+//     K1 extends keyof O,
+//     K2 extends keyof O[K1],
+//     K3 extends keyof O[K1][K2]
+//   >(o: O, k1: K1, k2: K2, k3: K3): O[K1][K2][K3]
+// }
+// 
+// let get: Get = (object: any, ...keys: string[]) => { // object stores activityLog variable. keys stores an array with 'events', 0, 'type' values
+//   let result = object
+//   // keys.forEach(k => result = result[k])
+//   keys.forEach(function(k) { // each iteration assigns to result value from next key
+//     result = result[k]
+//   })
+// 
+//   return result
+// }
+// 
+// console.log(get(activityLog, 'events', 0, 'type'))
 // get(activityLog, 'bad') // error, we can not set 'bad' as a keyof ActivityLog
+
+// 24
+// type Weekday = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri'
+// type Day = Weekday | 'Sat' | 'Sun'
+
+// let nextDay: Record<Weekday, Day> = { // Record first arguments is keys of methods that should be inside object. Record second argument is types of methods value that should be inside object.
+//   Mon: 'Tue',
+//   Tue: 'Wed',
+//   Wed: 'Thu',
+//   Thu: 'Fri',
+//   Fri: 'Sat'
+// }
+
+// 25
+// let nextDay: {[K in Weekday]: Day} = { // This type requires all Weekday values is keys of methods that should be inside object.
+//   Mon: 'Tue',
+//   Tue: 'Wed',
+//   Wed: 'Thu',
+//   Thu: 'Fri',
+//   Fri: 'Sat'
+// }
+
+// type MyMappedType = { // It is example of structure
+//   [Key in UnionType]: ValueType
+// }
+
+// 26
+type Record<K extends keyof any, T> = { // It is example of structure. Record first arguments is keys of methods that should be inside object. Record second argument is types of methods value that should be inside object.
+  [P in K]: T
+}
 
