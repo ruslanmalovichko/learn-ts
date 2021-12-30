@@ -2309,16 +2309,16 @@ import {type} from "os"
 // test()
 
 // 22
-function get<
-  O extends object,
-  K extends keyof O
->(
-  o: O,
-  k: K
-): O[K] {
-  return o[k]
-} // functions gets object and name of the object method. Function returns the value of object method
-
+// function get<
+//   O extends object,
+//   K extends keyof O
+// >(
+//   o: O,
+//   k: K
+// ): O[K] {
+//   return o[k]
+// } // functions gets object and name of the object method. Function returns the value of object method
+// 
 type ActivityLog = {
   lastEvent: Date
   events: {
@@ -2338,6 +2338,38 @@ let activityLog: ActivityLog = {
     }
   ]
 }
-let lastEvent = get(activityLog, 'lastEvent')
-console.log(lastEvent)
+// let lastEvent = get(activityLog, 'lastEvent')
+// console.log(lastEvent)
+
+// 23
+type Get = {
+  <
+    O extends object,
+    K1 extends keyof O
+  >(o: O, k1: K1): O[K1]
+  <
+    O extends object,
+    K1 extends keyof O,
+    K2 extends keyof O[K1]
+  >(o: O, k1: K1, k2: K2): O[K1][K2]
+  <
+    O extends object,
+    K1 extends keyof O,
+    K2 extends keyof O[K1],
+    K3 extends keyof O[K1][K2]
+  >(o: O, k1: K1, k2: K2, k3: K3): O[K1][K2][K3]
+}
+
+let get: Get = (object: any, ...keys: string[]) => { // object stores activityLog variable. keys stores an array with 'events', 0, 'type' values
+  let result = object
+  // keys.forEach(k => result = result[k])
+  keys.forEach(function(k) { // each iteration assigns to result value from next key
+    result = result[k]
+  })
+
+  return result
+}
+
+console.log(get(activityLog, 'events', 0, 'type'))
+// get(activityLog, 'bad') // error, we can not set 'bad' as a keyof ActivityLog
 
