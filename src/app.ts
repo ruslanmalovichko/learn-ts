@@ -2490,4 +2490,139 @@ import {type} from "os"
 // console.log(todo)
 
 // 29
+// type Currency = {
+//   unit: 'EUR' | 'GBP' | 'JPY' | 'USD'
+//   value: number
+// }
+// 
+// let Currency: any = { // error, variable does not have a type. To fix it, I set type any
+//   DEFAULT: 'USD',
+//   from(value: number, unit = Currency.DEFAULT): Currency { // We can use Currency.from for creating object
+//     return {unit, value}
+//   }
+// }
+// 
+// let amountDue: Currency = {
+//   unit: 'JPY',
+//   value: 83733.10
+// }
+// 
+// let otherAmountDue = Currency.from(330, 'EUR')
+// 
+// console.log(otherAmountDue)
+
+// 30
+// let a = [1, true] // (number | boolean)[]
+
+// function tuple<
+//   T extends unknown[]
+// >( // T is any array
+//   ...ts: T
+// ): T { // ts is array of values.
+//   console.log(ts)
+//   return ts
+// }
+// 
+// let a = tuple(1, true) // [number, boolean]
+
+// 31
+// function isString(a: unknown): boolean {
+//   return typeof a === 'string' // typeof works inside isString function only
+// }
+// 
+// // console.log(isString('a')) // true
+// // console.log(isString([7])) // false
+// 
+// function parseInput(input: string | number) {
+//   let formattedInput: string
+// 
+//   // console.log(isString(input))
+//   if (isString(input)) { // it returns true or false
+//     // formattedInput = input.toUpperCase() // error, Property 'toUpperCase' does not exist on type 'number'. typeof does not work this because this area is outside of isString function
+//   }
+// }
+
+// parseInput('Test String')
+
+// 32
+// function isString(a: unknown): a is string { // with is, typeof works inside and outside isString function
+//   return typeof a === 'string'
+// }
+// 
+// function parseInput(input: string | number) {
+//   let formattedInput: string
+// 
+//   // console.log(isString(input))
+//   if (isString(input)) { // it returns true or false
+//     formattedInput = input.toUpperCase() // error, Property 'toUpperCase' does not exist on type 'number'. typeof does not work this because this area is outside of isString function
+//     console.log(formattedInput)
+//   }
+// }
+// 
+// parseInput('Test String')
+
+// 33
+// type LegacyDialog = number
+// type Dialog = string
+// 
+// function isLegacyDialog(
+//   dialog: LegacyDialog | Dialog
+// ): dialog is LegacyDialog { // with is, typeof works inside and outside isLegacyDialog function
+// // ) {
+//   return typeof dialog === 'number'
+// }
+// 
+// function parseInput(input: string | number) {
+//   let formattedInput: number
+// 
+//   if (isLegacyDialog(input)) { // it returns true or false
+//     formattedInput = input // error, Type 'string | number' is not assignable to type 'number'. typeof does not work this because this area is outside of isLegacyDialog function
+//     console.log(formattedInput)
+//   }
+// }
+// 
+// parseInput(1)
+
+// 34
+// type IsString<T> = T extends string
+//   ? true
+//   : false
+// 
+// type A = IsString<string> // true, because T extends string ? true
+// type B = IsString<number> // false
+
+// 35
+// type ToArray<T> = T[]
+// type A = ToArray<number> // number[]
+// type B = ToArray<number | string> // (string | number)[]
+
+// type ToArray2<T> = T extends unknown ? T[] : T[] // split types
+// type ToArray2<T> = T extends string ? T[] : T[] // split types
+// type A = ToArray2<number> // number[]
+// type B = ToArray2<number | string> // number[] | string[]
+
+// 36
+// type Without<T, U> = T extends U ? never : T // never is not set type on T extends T case
+
+// type A = Without<
+//   boolean | number | string,
+//   boolean
+// > // number | string
+
+// How TypeScript calculates this type
+// type A = Without<boolean | number | string, boolean>
+
+// type A = Without<boolean, boolean>
+// | Without<number, boolean>
+// | Without<string, boolean>
+
+// type A = (boolean extends boolean ? never : boolean)
+// | (number extends boolean ? never : boolean)
+// | (string extends boolean ? never : boolean)
+
+// type A = number
+// | number
+// | string
+
+// type A = number | string
 
