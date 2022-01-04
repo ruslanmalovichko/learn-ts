@@ -2690,5 +2690,138 @@ function addToList(list: string[], item: string) {
 }
 addToList('this is really,' as any, 'really unsafe') // it ignores validation of input type
 
+// 41
+// type Dialog = {
+//   id?: string
+// }
+// 
+// function closeDialog(dialog: Dialog) {
+//   if (!dialog.id) { // it does not remove null type for TypeScript
+//     return
+//   }
+//   setTimeout(() =>
+//     removeFromDOM(
+//       dialog,
+//       document.getElementById(dialog.id) // error, Argument of type 'HTMLElement | null' is not assignable to parameter of type 'Element'.
+//     )
+//   )
+// }
+// 
+// function removeFromDOM(dialog: Dialog, element: Element) {
+//   element.parentNode.removeChild(element) //error, Object is possibly 'null'.
+//   delete dialog.id
+// }
+
+// 42
+// type Dialog = {
+//   id?: string
+// }
+// 
+// function closeDialog(dialog: Dialog) {
+//   if (!dialog.id) { // it does not remove null type for TypeScript
+//     return
+//   }
+//   setTimeout(() =>
+//     removeFromDOM(
+//       dialog,
+//       document.getElementById(dialog.id!)! // error, Argument of type 'HTMLElement | null' is not assignable to parameter of type 'Element'. Special syntax with ! symbol fixes that
+//     )
+//   )
+// }
+// 
+// function removeFromDOM(dialog: Dialog, element: Element) {
+//   element.parentNode!.removeChild(element) //error, Object is possibly 'null'. Special syntax with ! symbol fixes that
+//   delete dialog.id
+// }
+
+// 43
+// type VisibleDialog = {id: string}
+// type DestroyedDialog = {}
+// type Dialog = VisibleDialog | DestroyedDialog
+// 
+// function closeDialog(dialog: Dialog) {
+//   if (!('id' in dialog)) {
+//     return
+//   }
+//   setTimeout(() =>
+//     removeFromDOM(
+//       dialog,
+//       document.getElementById(dialog.id)!
+//     )
+//   )
+// }
+// 
+// function removeFromDOM(dialog: VisibleDialog, element: Element) {
+//   element.parentNode!.removeChild(element)
+//   delete dialog.id // error, The operand of a 'delete' operator must be optional. I do not know why
+// }
+
+// 44
+// let userId: string
+// userId.toUpperCase() // error, Variable 'userId' is used before being assigned
+
+// 45
+// let userId: string
+// fetchUser()
+// 
+// userId.toUpperCase() // error, Variable 'userId' is used before being assigned
+// 
+// function fetchUser() {
+//   // userId = globalCache.get('userId')
+//   userId = 'userId'
+// }
+
+// 46
+// let userId!: string
+// fetchUser()
+// 
+// userId.toUpperCase()
+// 
+// function fetchUser() {
+//   // userId = globalCache.get('userId')
+//   userId = 'userId'
+// }
+
+// 47
+// type CompanyID = string
+// type OrderID = string
+// type UserID = string
+// type ID = CompanyID | OrderID | UserID
+// 
+// function queryForUser(id: UserID) {
+// 
+// }
+// let id: CompanyID = 'b4843361'
+// queryForUser(id)
+
+// 48
+type CompanyID = string & {readonly brand: unique symbol} // marked type
+type OrderID = string & {readonly brand: unique symbol} // marked type
+type UserID = string & {readonly brand: unique symbol} // marked type
+
+type ID = CompanyID | OrderID | UserID
+
+function CompanyID(id: string) {
+  return id as CompanyID
+}
+
+function OrderID(id: string) {
+  return id as OrderID
+}
+
+function UserID(id: string) {
+  return id as UserID
+}
+
+function queryForUser(id: UserID) {
+
+}
+
+let companyId = CompanyID('aaa')
+let orderId = OrderID('bbb')
+let userId = UserID('ccc')
+
+queryForUser(userId)
+// queryForUser(companyId) // error, queryForUser function requires UserID type in argument. UserID is marked, so it's not compatible with CompanyID type
 
 
