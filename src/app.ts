@@ -2626,3 +2626,69 @@ import {type} from "os"
 
 // type A = number | string
 
+// 37
+// type ElementType<T> = T extends unknown[] ? T[number] : T // T[number] get element, maybe first element, of array
+// type A = ElementType<number[]> // number
+// type B = ElementType<string[]> // string
+// type C = ElementType<unknown[]> // unknown
+// type D = ElementType<symbol> // symbol
+// 
+// type ElementType2<T> = T extends (infer U)[] ? U : T // T[number] get element, maybe first element, of array
+// type A2 = ElementType2<number[]> // number
+// type B2 = ElementType2<string[]> // string
+// type C2 = ElementType2<unknown[]> // unknown
+// type D2 = ElementType2<symbol> // symbol
+// 
+// type ElementUgly<T, U> = T extends U[] ? U : T
+// type A3 = ElementUgly<number[]> // error, Generic type 'ElementUgly' requires 2 type argument(s). It this case we should call ElementUgly with two types and ElementUgly job does not have a sence
+
+// 38
+// type SecondArg<F> = F extends (a: any, b: infer B) => any ? B : never
+
+// type F = typeof Array['prototype']['slice']
+
+// type A = SecondArg<F> // number | undefined
+// Currently I can't understand this example
+
+// 39
+// type A = number | string
+// type B = string
+// type C = Exclude<A, B> // number
+// 
+// type A2 = number | string
+// type B2 = string
+// type C2 = Extract<A, B> // string
+// 
+// type A3 = {a?: number | null}
+// type B3 = NonNullable<A3['a']> // number. Calculates what type is A3['a'], but without null and undefined
+// 
+// type F = (a: number) => string
+// type R = ReturnType<F> // string. Calculates what type the function returns
+// 
+// type A5 = {new(): B5}
+// type B5 = {b: number}
+// type I5 = InstanceType<A5> // {b: number}. Calculates type of class object
+
+// 40
+function formatInput(input: string) {
+  console.log(typeof input)
+}
+
+function getUserInput(): string | number {
+  // return 'Test'
+  return 2
+}
+
+let input = getUserInput()
+
+formatInput(input as string) // it ignores validation of input type
+
+formatInput(<string>input) // it ignores validation of input type
+
+function addToList(list: string[], item: string) {
+
+}
+addToList('this is really,' as any, 'really unsafe') // it ignores validation of input type
+
+
+
