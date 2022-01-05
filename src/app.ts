@@ -2670,25 +2670,25 @@ import {type} from "os"
 // type I5 = InstanceType<A5> // {b: number}. Calculates type of class object
 
 // 40
-function formatInput(input: string) {
-  console.log(typeof input)
-}
-
-function getUserInput(): string | number {
-  // return 'Test'
-  return 2
-}
-
-let input = getUserInput()
-
-formatInput(input as string) // it ignores validation of input type
-
-formatInput(<string>input) // it ignores validation of input type
-
-function addToList(list: string[], item: string) {
-
-}
-addToList('this is really,' as any, 'really unsafe') // it ignores validation of input type
+// function formatInput(input: string) {
+//   console.log(typeof input)
+// }
+// 
+// function getUserInput(): string | number {
+//   // return 'Test'
+//   return 2
+// }
+// 
+// let input = getUserInput()
+// 
+// formatInput(input as string) // it ignores validation of input type
+// 
+// formatInput(<string>input) // it ignores validation of input type
+// 
+// function addToList(list: string[], item: string) {
+// 
+// }
+// addToList('this is really,' as any, 'really unsafe') // it ignores validation of input type
 
 // 41
 // type Dialog = {
@@ -2795,33 +2795,334 @@ addToList('this is really,' as any, 'really unsafe') // it ignores validation of
 // queryForUser(id)
 
 // 48
-type CompanyID = string & {readonly brand: unique symbol} // marked type
-type OrderID = string & {readonly brand: unique symbol} // marked type
-type UserID = string & {readonly brand: unique symbol} // marked type
-
-type ID = CompanyID | OrderID | UserID
-
-function CompanyID(id: string) {
-  return id as CompanyID
-}
-
-function OrderID(id: string) {
-  return id as OrderID
-}
-
-function UserID(id: string) {
-  return id as UserID
-}
-
-function queryForUser(id: UserID) {
-
-}
-
-let companyId = CompanyID('aaa')
-let orderId = OrderID('bbb')
-let userId = UserID('ccc')
-
-queryForUser(userId)
+// type CompanyID = string & {readonly brand: unique symbol} // marked type
+// type OrderID = string & {readonly brand: unique symbol} // marked type
+// type UserID = string & {readonly brand: unique symbol} // marked type
+// 
+// type ID = CompanyID | OrderID | UserID
+// 
+// function CompanyID(id: string) {
+//   return id as CompanyID
+// }
+// 
+// function OrderID(id: string) {
+//   return id as OrderID
+// }
+// 
+// function UserID(id: string) {
+//   return id as UserID
+// }
+// 
+// function queryForUser(id: UserID) {
+// 
+// }
+// 
+// let companyId = CompanyID('aaa')
+// let orderId = OrderID('bbb')
+// let userId = UserID('ccc')
+// 
+// queryForUser(userId)
 // queryForUser(companyId) // error, queryForUser function requires UserID type in argument. UserID is marked, so it's not compatible with CompanyID type
 
+// 49
+// import './zip'
+
+// [1, 2, 3]
+//   .map(n => n * 2)
+//   .zip(['a', 'b', 'c'])
+
+// let test1 = [1, 2, 3]
+// let test2 = [1, 2, 3].map(n => n * 2) // double each element
+// let test3 = [1, 2, 3].map(n => n * 2).zip(['a', 'b', 'c'])
+
+// console.log(test3)
+
+// Exercises of Part 6
+// 1:
+// 1 is subtype of number
+// number is not subtype of 1
+// string is subtype of number | string
+// boolean is not subtype of number
+// number[] is subtype of (number | string)[]
+// (number | string)[] is not subtype of number[]
+// {a: true} is subtype of {a: boolean}
+// {a: {b: [string]}} is subtype of {a: {b: [number | string]}}
+// (a: number) => string is not subtype of (b: number) => string // Maybe wrong
+// (a: number) => string is subtype of (a: string) => string // Maybe wrong
+// (a: number | string) => string is not subtype of (a: string) => string // Maybe wrong
+// enum is different
+
+// 2:
+// type O = {a: {b: {c: string}}}
+// keyof O // 'a'
+// O['a']['b'] // {c: string}
+
+// 3:
+// type Exclusive<T, U> = Exclude<T, U> | Exclude<U, T>
+// type R = Exclusive<1 | 2 | 3, 2 | 3 | 4> // 1 | 4
+// type U = Exclusive<1 | 2, 2 | 4> // 1 | 4
+
+// 4:
+// let globalCache = {
+//   get(key: string) {
+//     return 'user'
+//   }
+// }
+// 
+// let userId = fetchUser()
+// userId.toUpperCase()
+// 
+// function fetchUser() {
+//   return globalCache.get('userId')
+// }
+
+// Part 7
+
+// 1 example, it does not work
+// function ask() {
+//   return prompt('When is your birthday?')
+// }
+// 
+// function parse(birthday: string): Date | null {
+//   let date = new Date(birthday)
+//   if (!isValid(date)) {
+//     return null
+//   }
+//   return date
+// }
+// 
+// // let date = parse(ask() as string)
+// let date = parse(ask())
+// if (date) {
+//   console.info('Date is', date.toISOString())
+// }
+// else {
+//   console.error('Error parsing date for some reason')
+// }
+// 
+// function isValid(date: Date) {
+//   return Object.prototype.toString.call(date) === '[object Date]' && !Number.isNaN(date.getTime())
+// }
+
+// 2 example, it does not work, add exceptions
+// function parse(birthday: string): Date {
+//   let date = new Date(birthday)
+//   if (!isValid(date)) {
+//     // return null
+//     throw new RangeError('Enter a date in the form YYYY/MM/DD')
+//   }
+//   return date
+// }
+// 
+// try {
+//   let date = parse(ask())
+//   console.info('Date is', date.toISOString())
+// }
+// catch (e) {
+//   if (e instanceof RangeError) {
+//     console.error(e.message)
+//   }
+//   else {
+//     throw e
+//   }
+// }
+
+// 3 example. classes of errors
+// class InvalidDateFormatError extends RangeError {}
+// /* @throws {InvalidDateFormatError} user inserted wrong date of birthday */
+// class DateIsInTheFutureError extends RangeError {}
+// /* @throws {DateIsInTheFutureError} user inserted date of birthday from the future */
+// 
+// function parse(birthday: string): Date {
+//   let date = new Date(birthday)
+//   if (!isValid(date)) {
+//     throw new InvalidDateFormatError('Enter a date in the form YYY/MM/DD')
+//   }
+//   if (date.getTime() > Date.now()) {
+//     throw new DateIsInTheFutureError('Are you a timelord?')
+//   }
+//   return date
+// }
+// 
+// try {
+//   let date = parse(ask())
+//   console.info('Date is', date.toISOString())
+// }
+// catch (e) {
+//   if (e instanceof InvalidDateFormatError) {
+//     console.error(e.message)
+//   }
+//   else if (e instanceof DateIsInTheFutureError) {
+//     console.info(e.message)
+//   }
+//   else {
+//     throw e
+//   }
+// }
+
+// 4 example. Return exceptions
+// class InvalidDateFormatError extends RangeError {}
+// class DateIsInTheFutureError extends RangeError {}
+// 
+// function parse(
+//   birthday: string
+// ): Date | InvalidDateFormatError | DateIsInTheFutureError {
+//   let date = new Date(birthday)
+//   if (!isValid(date)) {
+//     return new InvalidDateFormatError('Enter a date in the form YYY/MM/DD')
+//   }
+//   if (date.getTime() > Date.now()) {
+//     return new DateIsInTheFutureError('Are you a timelord?')
+//   }
+//   return date
+// }
+// 
+// // let result = parse(ask())
+// let result = parse(ask() as string)
+// if (result instanceof InvalidDateFormatError) {
+//   console.error(result.message)
+// }
+// else if (result instanceof DateIsInTheFutureError) {
+//   console.info(result.message)
+// }
+// else {
+//   console.info('Date is', result.toISOString())
+// }
+// 
+// function ask() {
+//   return prompt('When is your birthday?')
+// }
+// 
+// function isValid(date: Date) {
+//   return Object.prototype.toString.call(date) === '[object Date]' && !Number.isNaN(date.getTime())
+// }
+
+// 5 example, it does not work
+// function x(): T | Error1 {
+// 
+// }
+// 
+// function y(): U | Error1 | Error2 {
+//   let a = x()
+//   if (a instanceof Error) {
+//     return a
+//   }
+// }
+// 
+// function z(): U | Error1 | Error2 | Error3 {
+//   let a = y()
+//   if (a instanceof Error) {
+//     return a
+//   }
+// }
+
+// 6 example, can’t debug
+// function parse(birthday: string): Date[] {
+//   let date = new Date(birthday)
+//   if (!isValid(date)) {
+//     return []
+//   }
+//   return date
+// }
+// 
+// let date = parse(ask())
+// date
+//   .map(_ => _.toISOString())
+//   .forEach(_ => console.info('Date is', _))
+// 
+// function ask() {
+//   let result = prompt('When is your birthday?')
+//   if (result === null) {
+//     return []
+//   }
+//   return [result]
+// }
+
+// ask()
+//   .map(parse)
+//   .map(date => date.toISOString()) // Property 'toISOString' does not exist on type 'Date[]'
+//   .forEach(date => console.info('Date is', date))
+
+// flatten(ask().map(parse))
+//   .map(date => date.toISOString())
+//   .forEach(date => console.info('Date is', date))
+// 
+// function flatten<T>(array: T[][]): T[] {
+//   return Array.prototype.concat.apply([], array)
+// }
+
+// ask()
+//   .flatMap(parse)
+//   .flatMap(date => new Some(date.toISOString()))
+//   .flatMap(date => new Some('Date is ' + date))
+//   .getOrElse('Error parsing date for some reason')
+
+// interface Option<T> {
+//   flatMap<U>(f: (value: T) => Option<U>): Option<U>
+//   getOrElse(value: T): T
+// }
+// class Some<T> implements Option<T> {
+//   constructor(private value: T) {}
+//   flatMap<U>(f: (value: T) => Option<U>): Option<U> {
+//     return f(this.value)
+//   }
+//   getOrElse(): T {
+//     return this.value
+//   }
+// }
+// class None implements Option<never> {
+//   flatMap<U>(): Option<U> {
+//     return this
+//   }
+//   getOrElse<U>(value: U): U {
+//     return value
+//   }
+// }
+
+// 7 example, can’t debug
+// interface Option<T> {
+//   flatMap<U>(f: (value: T) => None): None
+//   flatMap<U>(f: (value: T) => Option<U>): Option<U>
+//   getOrElse(value: T): T
+// }
+// class Some<T> implements Option<T> {
+//   getOrElse(): T {
+//     return this.value
+//   }
+// 
+//   constructor(private value: T) {}
+//   flatMap<U>(f: (value: T) => None): None
+//   flatMap<U>(f: (value: T) => Some<U>): Some<U>
+//   flatMap<U>(f: (value: T) => Option<U>): Option<U> {
+//     return f(this.value)
+//   }
+// }
+// class None implements Option<never> {
+//   flatMap<U>(): None {
+//     return this
+//   }
+//   getOrElse<U>(value: U): U {
+//     return value
+//   }
+// }
+// 
+// function Option<T>(value: null | undefined): None
+// function Option<T>(value: T): Some<T>
+// function Option<T>(value: T): Option<T> {
+//   if (value == null) {
+//     return new None
+//   }
+//   return new Some(value)
+// }
+// 
+// let result = Option(6)
+// .flatMap(n => Option(n * 3))
+// .flatMap(n => new None)
+// .getOrElse(7)
+// 
+// ask()
+//   .flatMap(parse)
+//   .flatMap(date => new Some(date.toISOString()))
+//   .flatMap(date => new Some('Date is ' + date))
+//   .getOrElse('Error parsing date for some reason')
 

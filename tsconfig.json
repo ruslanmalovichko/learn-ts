@@ -11,6 +11,6 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/*.ts", "src/**/*.ts"],
-  "exclude": ["src/types/*.ts", "node_modules", ".vscode"]
+  "exclude": ["src/types/*.ts", "node_modules", ".vscode", "src/zip.ts"]
 }
 
