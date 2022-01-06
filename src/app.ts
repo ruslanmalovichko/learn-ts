@@ -8,7 +8,6 @@
 // let d = c.apple * 4
 // let e = 'Test' + []
 
-import {rejects} from "assert";
 import {type} from "os"
 
 // 2
@@ -3125,4 +3124,244 @@ import {type} from "os"
 //   .flatMap(date => new Some(date.toISOString()))
 //   .flatMap(date => new Some('Date is ' + date))
 //   .getOrElse('Error parsing date for some reason')
+
+// Exercises for part 7
+// type UserID = string
+// 
+// class API {
+//   // function parse(
+//   //   birthday: string
+//   // ): Date | InvalidDateFormatError | DateIsInTheFutureError {
+//   //   let date = new Date(birthday)
+//   //   if (!isValid(date)) {
+//   //     return new InvalidDateFormatError('Enter a date in the form YYY/MM/DD')
+//   //   }
+//   //   if (date.getTime() > Date.now()) {
+//   //     return new DateIsInTheFutureError('Are you a timelord?')
+//   //   }
+//   //   return date
+//   // }
+// 
+//   getLoggedInUserID(): UserID {
+//     let userID: UserID = '1x'
+//     return userID
+//   }
+//   // getFriendIDs(userID: UserID): UserID[] | InvalidUserID {
+//   getFriendIDs(userID: UserID): UserID[] {
+//     let users: UserID[] = []
+//     userID = userID.slice(0, 1)
+// 
+//     const usersVariants = ['a', 'b', 'c'];
+//     usersVariants.forEach(function(element) {
+//       users.push(userID + element)
+//     });
+// 
+//     return users
+//   }
+//   getUserName(userID: UserID): string | InvalidUserID {
+//     let userName = userID.slice(1)
+//     if (!userName) {
+//       return new InvalidUserID
+//     }
+//     return userName
+//   }
+// }
+// 
+// class InvalidUserID extends RangeError {}
+// // class DateIsInTheFutureError extends RangeError {}
+// 
+//   let api: API = new API
+// 
+//   let userID = api.getLoggedInUserID()
+//   console.log(userID)
+// 
+//   let users = api.getFriendIDs(userID)
+//   console.log(users)
+// 
+//   let userName = api.getUserName(userID)
+//   console.log(userName)
+// 
+//   // let userName2 = api.getUserName(users[0])
+//   let userName2 = api.getUserName('1')
+//   // console.log(userName2)
+// 
+// if (userName2 instanceof InvalidUserID) {
+//   console.error(userName2.message)
+// }
+
+// Exercise 7 answer from github:
+// export default null // Force module mode
+
+// 1. Design a way to handle errors for the following API, using one of the patterns from this chapter. In this API, every operation might fail — feel free to update the API’s method signatures to allow for Errs (or don’t, if you prefer). Think about how you might perform a sequence of actions while handling errors that come up (eg. getting the logged in user’s ID, then getting their list of friends).
+
+// type UserID = unknown
+// 
+// declare class API {
+//   getLoggedInUserID(): Option<UserID>
+//   getFriendIDs(userID: UserID): Option<UserID[]>
+//   getUserName(userID: UserID): Option<string>
+// }
+// 
+// interface Option<T> {
+//   flatMap<U>(f: (value: T) => None): None
+//   flatMap<U>(f: (value: T) => Option<U>): Option<U>
+//   getOrElse(value: T): T
+// }
+// class Some<T> implements Option<T> {
+//   constructor(private value: T) {}
+//   flatMap<U>(f: (value: T) => None): None
+//   flatMap<U>(f: (value: T) => Some<U>): Some<U>
+//   flatMap<U>(f: (value: T) => Option<U>): Option<U> {
+//     return f(this.value)
+//   }
+//   getOrElse(): T {
+//     return this.value
+//   }
+// }
+// class None implements Option<never> {
+//   flatMap(): None {
+//     return this
+//   }
+//   getOrElse<U>(value: U): U {
+//     return value
+//   }
+// }
+// 
+// function listOfOptionsToOptionOfList<T>(list: Option<T>[]): Option<T[]> {
+//   let empty = {}
+//   let result = list.map(_ => _.getOrElse(empty as T)).filter(_ => _ !== empty)
+//   if (result.length) {
+//     return new Some(result)
+//   }
+//   return new None()
+// }
+// 
+// let api = new API()
+// let friendsUserNames = api
+//   .getLoggedInUserID()
+//   .flatMap(api.getFriendIDs)
+//   .flatMap(_ => listOfOptionsToOptionOfList(_.map(api.getUserName)))
+
+// Part 8
+// 1
+// function readFile(
+//   path: string,
+//   option: {encoding: string, flag?: string},
+//   callback: (err: Error | null, data: string | null) => void
+// ): void
+
+// import * as fs from 'fs'
+// 
+// fs.readFile(
+//   '/var/log/syslog',
+//   {encoding: 'utf8'},
+//   (error, data) => {
+//     if (error) {
+//       console.error('error reading!', error)
+//       return
+//     }
+//     console.info('success reading!', data)
+//   }
+// )
+
+// // I did not run this fs.appendFile(
+//   '/var/log/syslog',
+//   'New access log entry',
+//   error => {
+//     if (error) {
+//       console.error('error writing!', error)
+//     }
+//   }
+// )
+
+// 2 example
+// function appendAndReadPromise(
+//   path: string, data: string
+// ): Promise<string> {
+//   return appendPromise(path, data)
+//     .then(() => readPromise(path))
+//     .catch(error => console.error(error))
+// }
+
+// 3 example
+// function appendAndRead(
+//   path: string,
+//   data: string,
+//   cb: (error: Error | null, result: string | null) => void
+// ) {
+//   appendFile(path, data, error => {
+//     if (error) {
+//       return cb(error, null)
+//     }
+//     readFile(path, (error, result) => {
+//       if (error) {
+//         return cb(error, null)
+//       }
+//       cb(null, result)
+//     })
+//   })
+// }
+
+// 4
+// import Promise from "ts-promise";
+
+// type Executor = (
+//   resolve: Function,
+//   reject: Function
+// ) => void
+
+// type Executor<T> = (
+//   resolve: (result: T) => void,
+//   reject: (error: unknown) => void
+// ) => void
+
+// type Executor<T, E extends Error> = (
+//   resolve: (result: T) => void,
+//   reject: (error: E) => void
+// ) => void
+
+// class Promise<T, E extends Error> {
+//   constructor(f: Executor<T, E>) {}
+//   then<U, F extends Error>(g: (result: T) =>
+//                            Promise<U, F>): Promise<U, F>
+//   catch<U, F extends Error>(g: (error: E) =>
+//                            Promise<U, F>): Promise<U, F>
+// }
+
+// class Promise<T> {
+//   constructor(f: Executor<T>) {}
+//   then<U>(g: (result: T) => Promise<U>): Promise<U> {
+//     // ...
+//   }
+//   catch<U>(g: (error: unknown) => Promise<U>): Promise<U> {
+//     // ...
+//   }
+// }
+
+// import {readFile} from 'fs'
+// 
+// function readFilePromise(path: string): Promise<string> {
+//   return new Promise((resolve, reject) => {
+//     readFile(path, (error, result) => {
+//       if (error) {
+//         reject(error)
+//       }
+//       else {
+//         resolve(result)
+//       }
+//     })
+//   })
+// }
+
+// let a: () => Promise<string, TypeError>
+// let b: (s: string) => Promise<number, never>
+// let c: () => Promise<boolean, RangeError>
+// 
+// a()
+//   .then(b)
+//   .catch(e => c())
+//   .then(result => console.info('Done', result))
+//   .catch(e => console.error('Error', e))
+
+// 5
 
