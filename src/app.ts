@@ -3363,5 +3363,170 @@ import {type} from "os"
 //   .then(result => console.info('Done', result))
 //   .catch(e => console.error('Error', e))
 
-// 5
+// 5 example
+// function getUser() {
+//   getUserID(18)
+//     .then(user => getLocation(user))
+//     .then(location => console.info('got location', location))
+//     .catch(error => console.error(error))
+//     .finally(() => console.info('done getting location'))
+// }
+
+// 6 example
+// async function getUser() {
+//   try {
+//     let user = await getUserID(18)
+//     let location = await getLocation(user)
+//     console.info('got location', user)
+//   }
+//   catch(error) {
+//     console.error(error)
+//   }
+//   finally {
+//     console.info('done getting location')
+//   }
+// }
+
+// 7
+// interface Emitter {
+//   // Отправка события
+//   emit(channel: string, value: unknown): void
+//   // Сделать что-либо после отправки события
+//   on(channel: string, f: (value: unknown) => void): void
+// }
+
+// import Redis from 'redis'
+// // Создание нового экземпляра клиента Redis
+// let client = redis.createClient()
+// // Прослушивание новых событий, отправленных клиентом
+// client.on('ready', () => console.info('Client is ready'))
+// client.on('error', e => console.error('An error occurred!', e))
+// client.on('reconnecting', params => console.info('Reconnecting...',
+// params))
+
+// type RedisClient = {
+//   on(event: 'ready', f: () => void): void
+//   on(event: 'error', f: (e: Error) => void): void
+//   on(event: 'reconnecting',
+//   f: (params: {attempt: number, delay: number}) => void): void
+// }
+
+// type Events = {
+//   ready: void
+//   error: Error
+//   reconnecting: {attempt: number, delay: number}
+// }
+
+// type RedisClient = {
+//   on<E extends keyof Events>(
+//     event: E,
+//     f: (arg: Events[E]) => void
+//   ): void
+// }
+
+// type RedisClient = {
+//   on<E extends keyof
+//     Events>( event: E,
+//     f: (arg: Events[E]) => void
+//   ): void
+//   emit<E extends keyof
+//     Events>( event: E,
+//     arg: Events[E]
+//   ): void
+// }
+
+// 8
+// interface WindowEventMap extends GlobalEventHandlersEventMap {
+//   // ...
+//   contextmenu: PointerEvent
+//   dblclick: MouseEvent
+//   devicelight: DeviceLightEvent
+//   devicemotion: DeviceMotionEvent
+//   deviceorientation: DeviceOrientationEvent
+//   drag: DragEvent
+//   // ...
+// }
+// interface Window extends EventTarget, WindowTimers,
+//   WindowSessionStorage, WindowLocalStorage,
+//   WindowConsole, GlobalEventHandlers, IDBEnvironment,
+//   WindowBase64, GlobalFetch {
+//   // ...
+//   addEventListener<K extends keyof WindowEventMap>(
+//     type: K,
+//     listener: (this: Window, ev: WindowEventMap[K]) =>
+//     any, options?: boolean | AddEventListenerOptions
+//   ): void
+//   removeEventListener<K extends keyof WindowEventMap>(
+//     type: K,
+//     listener: (this: Window, ev: WindowEventMap[K]) =>
+//     any, options?: boolean | EventListenerOptions
+//   ): void
+// }
+
+// 9 Can not run
+// let worker = new Worker("./WorkerScript.ts")
+// worker.postMessage('some data')
+
+// 10 Can not run
+// import EventEmitter from 'events'
+// class SafeEmitter<
+//   Events extends Record<PropertyKey, unknown[]>
+// > {
+//   private emitter = new EventEmitter
+//   emit<K extends keyof Events>(
+//     channel: K,
+//     ...data: Events[K]
+//   ) {
+//     return this.emitter.emit(channel, ...data)
+//   }
+//   on<K extends keyof Events>(
+//     channel: K,
+//     listener: (...data: Events[K]) => void
+//   ) {
+//     return this.emitter.on(channel, listener)
+//   }
+// }
+
+// 11 Can not run
+// type Matrix = number[][]
+// type MatrixProtocol = {
+//   determinant: {
+//     in: [Matrix]
+//     out: number
+//   }
+//   'dot-product': {
+//     in: [Matrix, Matrix]
+//     out: Matrix
+//   }
+//   invert: {
+//     in: [Matrix]
+//     out: Matrix
+//   }
+// }
+// 
+// type Protocol = {
+//   [command: string]: {
+//     in: unknown[]
+//     out: unknown
+//   }
+// }
+// function createProtocol<P extends Protocol>(script: string) {
+//   return <K extends keyof P>(command: K) => (...args: P[K]['in']) => new Promise<P[K]['out']>((resolve, reject) => {
+//     let worker = new worker(script)
+//     worker.onerror = reject
+//     worker.onmessage = event => resolve(event.data.data)
+//     worker.postMessage({command, args})
+//   })
+// }
+// 
+// let runWithMatrixProtocol = createProtocol<MatrixProtocol>(
+// 'MatrixWorkerScript.js'
+// )
+// let parallelDeterminant = runWithMatrixProtocol('determinant')
+// parallelDeterminant([[1, 2], [3, 4]])
+// .then(determinant =>
+// console.log(determinant) // -2
+// )
+
+// Part 8 Exercises
 
