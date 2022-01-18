@@ -59,3 +59,34 @@
 // // Отправка события обратно главному потоку.
 // eventEmitter.emit('createdThread', 123, [456, 789])
 
+// Part 8 Exercises. Can not run
+// let handlers: {
+//   [C in keyof MatrixProtocol]: (
+//     ...args: MatrixProtocol[C]['in']
+//   ) => MatrixProtocol[C]['out']
+// } = {
+//   determinant(matrix) {
+//     return determinant(matrix)
+//   },
+//   ['dot-product'](a, b) {
+//     return dotProduct(a, b)
+//   },
+//   invert(matrix) {
+//     return invert(matrix)
+//   }
+// }
+// 
+// onmessage = <C extends keyof MatrixProtocol>({
+//   data: {command, args}
+// }: {
+//   data: {command: C; args: MatrixProtocol[C]['in']}
+// }) => {
+//   let handler = handlers[command]
+//   let result = handler(...args)
+//   postMessage(result)
+// }
+// 
+// declare function determinant(matrix: Matrix): number
+// declare function dotProduct(matrixA: Matrix, matrixB: Matrix): Matrix
+// declare function invert(matrix: Matrix): Matrix
+
