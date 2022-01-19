@@ -8,7 +8,7 @@
 // let d = c.apple * 4
 // let e = 'Test' + []
 
-import {type} from "os"
+// import {type} from "os"
 
 // 2
 // function squareOf(n: number) {
@@ -3573,4 +3573,33 @@ import {type} from "os"
 //     out: Matrix
 //   }
 // }
+
+// Part 9
+// 1
+// Считывать свойства из глобального объекта окна.
+// let model = {
+//   url: window.location.href
+// }
+// // Создать элемент <input />.
+// let input = document.createElement('input')
+// // Наделить его CSS классами.
+// input.classList.add('Input', 'URLInput')
+// // Обновлять модель в процессе ввода данных пользователем.
+// input.addEventListener('change', () =>
+//   model.url = input.value.toUpperCase()
+// )
+// // Внедрить <input /> в DOM.
+// document.body.appendChild(input)
+// 
+// // document.querySelector('.Element').innerHTML // Ошибка TS2531:
+// // Объект, вероятно, 'null'.
+// 
+// // let element = document.querySelector('.Element')
+// let element  = document.querySelector('.Input')
+// console.log(element)
+// if (element) {
+//   console.log(element.innerHTML)
+// }
+
+// 2 tsx is skipped
 
