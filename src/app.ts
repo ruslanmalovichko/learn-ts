@@ -3603,3 +3603,115 @@
 
 // 2 tsx is skipped
 
+// 3 Angular is skipped
+
+// 4 Can not run
+// type Request =
+//   | {entity: 'user', data: User}
+//   | {entity: 'location', data: Location}
+// client.ts
+// async function get<R extends Request>(entity: R['entity'])
+// : Promise<R['data']> {
+// let res = await fetch(/api/${entity})
+// let json = await res.json()
+// if (!json) {
+// throw ReferenceError('Empty response')
+// }
+// return json
+// }
+// // app.ts
+// async function startApp() {
+// let user = await get('user') // User
+// }
+
+// 5 Can not run
+// PostgreSQL, используя node-postgres
+// let client = new Client
+// let res = await client.query(
+// 'SELECT name FROM users where id = $1',
+// [739311]
+// ) // any
+// // MongoDB, используя node-mongodb-native
+// db.collection('users')
+// .find({id: 739311})
+// .toArray((err, user) =>
+// // Пользователь является any
+// )
+// db.collection('users')
+// .find({id: 739311})
+// .toArray((err, user: User) =>
+// // Пользователь является any
+// )
+
+// 6 Can not run
+// let user = await UserRepository.findOne({id: 739311}) // User | undefined
+
+// Part 10
+// 1
+// Modules old variants, can not run:
+// window.emailListModule =
+//   { renderList() {}
+//   // ...
+// }
+// window.emailComposerModule = { renderComposer() {}
+// 
+// }
+// window.appModule = {
+//   renderApp() {
+//     window.emailListModule.renderList()
+//     window.emailComposerModule.renderComposer()
+//   }
+// }
+
+// 2 Labjs, can not run:
+// $LAB
+// .script('/emailBaseModule.js').wait()
+// .script('/emailListModule.js')
+// .script('/emailComposerModule.js')
+
+// 3 CommonJS modules old variant:
+// var emailList = require('emailListModule')
+// var emailComposer = require('emailComposerModule')
+// module.exports.renderBase = function() {
+//   // ...
+// }
+
+// 4 AMD, can not run:
+// define('emailBaseModule',
+//   ['require', 'exports', 'emailListModule', 'emailComposerModule'],
+//   function(require, exports, emailListModule, emailComposerModule) {
+//     exports.renderBase = function() {
+//       // ...
+//     }
+//   }
+// )
+
+// 5 ES2015 variant, can not run
+// emailBaseModule.js
+// import emailList from 'emailListModule'
+// import emailComposer from 'emailComposerModule'
+// export function renderBase() {
+//   // ...
+// }
+
+// 6 Dynamic import in LABjs, can not run
+// let locale = await import('locale_us-en')
+
+// 7 can not run
+// import {locale} from './locales/locale-us'
+// async function main() {
+//   let userLocale = await getUserLocale()
+//   let path = ./locales/locale-${userLocale}
+//   let localeUS: typeof locale = await import(path)
+// }
+
+// 8 can not run
+// import {something} from './a/legacy/commonjs/module'
+
+// 9 can not run
+// import * as fs from 'fs'
+// fs.readFile('some/file.txt')
+// 
+// import fs from 'fs' // if esModuleInterop is true
+// fs.readFile('some/file.txt')
+
