@@ -3715,3 +3715,175 @@
 // import fs from 'fs' // if esModuleInterop is true
 // fs.readFile('some/file.txt')
 
+// Exer for Part 10:
+// export default null // Force module mode
+
+// 1. Play around with declaration merging, to:
+
+// 1a. Re-implement companion objects using namespaces and interfaces, instead of values and types.
+
+// interface Currency {
+//   unit: 'EUR' | 'GBP' | 'JPY' | 'USD'
+//   value: number
+// }
+// 
+// namespace Currency {
+//   export let DEFAULT: Currency['unit'] = 'USD'
+//   export function from(value: number, unit = Currency.DEFAULT): Currency {
+//     return {unit, value}
+//   }
+// }
+// 
+// let amountDue: Currency = {
+//   unit: 'JPY',
+//   value: 83733.1
+// }
+// 
+// let otherAmountDue = Currency.from(330, 'EUR')
+
+// 1b. Add static methods to an enum.
+
+// enum Color {
+//   RED = '#ff0000',
+//   GREEN = '#00ff00',
+//   BLUE = '#0000ff'
+// }
+// 
+// namespace Color {
+//   export function getClosest(to: string): Color {
+//     // ...
+//   }
+// }
+// 
+// Color.getClosest('#ffa500')
+
+// Part 11
+// 1
+// import {Subscriber} from './Subscriber'
+// import {Subscription} from './Subscription'
+// import {PartialObserver, Subscribable, TeardownLogic} from './types'
+// export class Observable<T> implements Subscribable<T> {
+//   public _isScalar: boolean = false
+//   constructor(
+//     subscribe?: (
+//       this: Observable<T>,
+//       subscriber:
+//       Subscriber<T>
+//     ) => TeardownLogic
+//   ) {
+//     if (subscribe) {
+//       this._subscribe = subscribe
+//     }
+//   }
+//   static create<T>(subscribe?: (subscriber: Subscriber<T>) => TeardownLogic) {
+//     return new Observable<T>(subscribe)
+//   }
+//   subscribe(observer?: PartialObserver<T>): Subscription
+//   subscribe(
+//     next?: (value: T) => void,
+//     error?: (error: any) => void,
+//     complete?: () => void
+//   ): Subscription
+//   subscribe(
+//     observerOrNext?: PartialObserver<T> | ((value: T) => void),
+//     error?: (error: any) => void,
+//     complete?: () => void
+//   ): Subscription {
+//     // ...
+//   }
+// }
+
+// 2
+// import {Subscriber} from './Subscriber'
+// import {Subscription} from './Subscription'
+// import {PartialObserver, Subscribable, TeardownLogic} from './types'
+// export declare class Observable<T> implements Subscribable<T> {
+//   _isScalar: boolean
+//   constructor(
+//     subscribe?: (
+//       this: Observable<T>,
+//       subscriber: Subscriber<T>
+//     ) => TeardownLogic
+//   );
+//   static create<T>(
+//     subscribe?: (subscriber: Subscriber<T>) => TeardownLogic
+//   ): Observable<T>
+//   subscribe(observer?: PartialObserver<T>): Subscription
+//   subscribe(
+//     next?: (value: T) => void,
+//     error?: (error: any) => void,
+//     complete?: () => void
+//   ): Subscription
+// }
+
+// 3
+// process = {
+//   env: {
+//     NODE_ENV: 'production'
+//   }
+// }
+
+// 4
+// declare let process: {
+//   env: {
+//     NODE_ENV: 'development' | 'production'
+//   }
+// }
+// 
+// process = {
+//   env: {
+//     NODE_ENV: 'production'
+//   }
+// }
+
+// 5
+// type ToArray<T> = T extends unknown[] ? T : T[]
+
+// function toArray<T>(a: T): ToArray<T> {
+// // ...
+// }
+
+// type UserID = string & {readonly brand: unique symbol}
+
+// 6
+// declare module 'module-name' {
+//   export type MyType = number
+//   export type MyDefaultType = {a: string}
+//   export let myExport: MyType
+//   let myDefaultExport: MyDefaultType
+//   export default myDefaultExport
+// }
+// 
+// import ModuleName from 'module-name'
+// ModuleName.a // строка
+// 
+// declare module '@most/core' {
+// // Декларация типа
+// }
+
+// 7
+// Объявление модуля, который может быть импортирован и у которого
+// все импорты имеют тип any.
+// declare module 'unsafe-module-name'
+// 
+// import {x} from 'unsafe-module-name'
+// x // any
+
+// 8
+// Файлы типа JSON, импортированные с помощью Webpack загрузчика json.
+// declare module 'json!*' {
+//   let value: object
+//   export default value
+// }
+// 
+// // Файлы типа CSS, импортированные с помощью Webpack загрузчика стиля.
+// declare module '*.css' {
+//   let css: CSSRuleList
+//   export default css
+// }
+// 
+// import a from 'json!myFile'
+// a // объект
+// import b from './widget.css'
+// b // CSSRuleList
+
